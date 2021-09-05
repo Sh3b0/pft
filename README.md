@@ -8,7 +8,7 @@ Artifact document can be accessed from [here](https://docs.google.com/document/d
 ## Features
 
 ## Screenshots
-
+![alt text](https://github.com/Sh3B0/pft/blob/main/Pictures/Transfer%20file.png)
 ## Frameworks and technology used
 
 ## Installation 
