@@ -35,21 +35,21 @@ Information about the team of developers behind this amazign tool is detailed he
 Feel free to check stalk them :)
 
 ## Frameworks and technology used
+- Flask for backend  
+- HTML, CSS, Vanilla JS for front-end and client-side  
+- WebRTC has to be supported by the user browser
 
 ## Installation 
+- No installation required, the website will be hosted online soon.
 
-## How to use
-
-## Suggestions
+## Contribution
+- Feel free to open a pull request, suggest a feature, or report a bug by creating an issue   
 
 ## Credits
-
-## Licence
-
-
-## Developers
 - Ahmed Nouralla
 - Talgat Bektleuov
 - Nikita Poryvaev
 - Igor Mpore
- 
+
+## Licence
+The source code for the site is licensed under the MIT license, which you can find in the LICENSE file.   
