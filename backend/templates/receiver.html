@@ -1,0 +1,16 @@
+<html lang="en-us">
+
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <title>Receiver</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+
+<body>
+    <p>Download link should show up here when it's ready</p><br>
+    <a id="downloadLink"></a>
+</body>
+
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="{{ url_for('static', filename='js/receiver.js') }}"></script>
+</html>

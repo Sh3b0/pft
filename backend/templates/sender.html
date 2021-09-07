@@ -1,0 +1,17 @@
+<html lang="en-us">
+
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <title>Sender</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+
+<body>
+    <input id="fileInput" type="file"/>
+    <button id="sendButton" disabled>Send file</button>
+    <button id="inviteButton" disabled>Generate invite link</button>
+</body>
+
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="{{ url_for('static', filename='js/sender.js') }}"></script>
+</html>
