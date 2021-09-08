@@ -1,11 +1,10 @@
 // Globals
-//const form = document.getElementById('form')
-//const answerP = document.getElementById('answer')
+
 let downloadLink = document.getElementById('downloadLink')
 let remoteConnection, receiverBuffer = [], receivedSize = 0
 let offer, fileMeta
 
-
+// TODO: add progress bar to receiver
 function get_offer() {
     let roomId = document.location.pathname.split('/')[2]
     if (roomId === "") return

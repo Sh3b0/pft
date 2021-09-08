@@ -3,6 +3,9 @@ from flask_restful import Resource, Api
 import json
 
 
+# TODO: create a dict with (room_id, creationTime) and delete room if creationTime+24h<time.now
+
+# API, both sender and receiver contact for creating and joining rooms.
 class Room(Resource):
     # Receiver gets offer, Sender gets answer
     def get(self, room_id):

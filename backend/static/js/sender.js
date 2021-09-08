@@ -1,23 +1,25 @@
 // Globals
-//const form = document.getElementById('form')
-//const offerP = document.getElementById('offerP')
+
 const fileInput = document.getElementById('fileInput')
 const sendButton = document.getElementById('sendButton')
 const inviteButton = document.getElementById('inviteButton')
-let localConnection, sendChannel, latestOffer, fileMeta, timeoutIds = []
+const progress = document.getElementById('progress')
+
+let localConnection, sendChannel, latestOffer, fileMeta
 
 // TODO: resend ice candidates as they arrive
 // TODO: make calculations for progress bar
 // TODO: make checks for filesize limit
+// TODO: delete rooms from server
 // TODO: close channel after transfer ends and display some message
 // TODO: handle erroneous situations
 
 // Creating local connection
-window.onload = e => {
+window.onload = () => {
     console.log("Window loaded")
     const conf = {iceServers: [{urls: 'stun:stun1.l.google.com:19302'}]}
     localConnection = new RTCPeerConnection(conf)
-    localConnection.onicecandidate = e => {
+    localConnection.onicecandidate = () => {
         console.log("New ice candidate")
         latestOffer = localConnection.localDescription
         // offerP.innerHTML = JSON.stringify(latestOffer)
@@ -52,18 +54,11 @@ sendButton.onclick = e => {
 
     fileReader.onerror = e => {
         console.error('Error reading file: ', e)
+        // TODO: closeChannel()
     }
     fileReader.onabort = e => {
         console.log('Aborting: ', e)
-    }
-
-    // On reading a part of the file, we send that part
-    fileReader.onload = e => {
-        sendChannel.send(e.target.result);
-        so_far += e.target.result.byteLength;
-        if (so_far < file.size) {
-            readPart(so_far)
-        }
+        // TODO: closeChannel()
     }
 
     // Reads chunkSize bytes of the file, starting from byte o
@@ -73,6 +68,17 @@ sendButton.onclick = e => {
         fileReader.readAsArrayBuffer(slice);
     }
     readPart(0);
+
+    // On reading a part of the file, we send that part
+    fileReader.onload = e => {
+        sendChannel.send(e.target.result)
+        so_far += e.target.result.byteLength
+        progress.value = so_far / file.size * 100
+        // progress.textContent = (so_far / file.size * 100).toString()
+        if (so_far < file.size) {
+            readPart(so_far)
+        }
+    }
 }
 
 // Gets hash code from a string
@@ -115,20 +121,19 @@ function get_answer() {
     xhr.send()
     xhr.onreadystatechange = e => {
         if (e.target.readyState === 4) {  // DONE
+            console.log("Response: " + xhr.response)
             let rsp = JSON.parse(JSON.parse(xhr.response))
-            if (rsp.type === "answer" && localConnection.connectionState !== "connected") {
+            if (rsp.type === "answer") {
                 console.log("Answer arrived")
                 localConnection.setRemoteDescription(rsp).then(() => console.log("Connected to receiver"))
                 sendButton.disabled = false
-                for (const t of timeoutIds) {
-                    clearTimeout(t)
-                }
-            } else if (localConnection.connectionState === "new") { // TODO: verify the logic here.
-                timeoutIds.push(setTimeout(get_answer, 2000))
+            } else if (rsp.type === 'offer') {
+                get_answer()
             }
         }
     }
 }
+
 
 // InviteButton functionality
 inviteButton.onclick = () => {
