@@ -34,7 +34,17 @@ window.onload = () => {
 // Toggle send/invite button
 fileInput.onchange = () => {
     console.log('File input changed')
-    inviteButton.disabled = !fileInput.files.length
+    let size = fileInput.files[0].size
+    if(size<1000000000){
+        console.log(size)
+        inviteButton.disabled = !fileInput.files.length
+    }
+    else{
+        console.log(size)
+        console.log("File is too large")
+        inviteButton.disabled = true
+    }
+
 }
 
 // SendButton functionality
