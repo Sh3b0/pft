@@ -21,13 +21,13 @@ ___
 ### 1. Sending files screen.<br />
 The first page that a user sees is the page for sending files. A user will generate a link and send it to his/her peer. After they are connected, then they can share files simaltaneously.
 
-<img src="https://github.com/Sh3B0/pft/blob/main/Pictures/Transfer%20file.png" width="720
+<img src="https://github.com/Sh3B0/pft/blob/main/Pics-icons/Transfer%20file.png" width="720
 " height="480" />
 
 ### 2. Receiving files screen.<br />
 When a user wants to receive a file, they should be on the "Receive" page. After the link is generated and shared, the new peer who wants to connect pastes it in the designated input field to get connected. After the connection is successfull, then they can share files simaltaneously.
 
-<img src="https://github.com/Sh3B0/pft/blob/main/Pictures/Receive%20file.png" width="720
+<img src="https://github.com/Sh3B0/pft/blob/main/Pics-icons/Receive%20file.png" width="720
 " height="480" />
 
 ### 3. About us screen.<br />

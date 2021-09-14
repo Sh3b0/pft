@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+
+
+/* _____ Common CSS _________*/
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: #F7F8FC;
+    font-family: 'Lato', sans-serif;
+}
+
+li, a {
+    font-weight: 500;
+    font-size: 16px;
+    color: #0F1020;
+    text-decoration: none;
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items:flex-start;
+    padding: 30px 10px;
+}
+
+.logo{
+    cursor: pointer;
+}
+
+.nav_links {
+    list-style: none;
+}
+
+.nav_links li {
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+.nav_links li a:hover {
+    color: #2AB7CA;
+}
+
+
