@@ -3,7 +3,7 @@
 let downloadLink = document.getElementById('downloadLink')
 let remoteConnection, receiverBuffer = [], receivedSize = 0
 let offer, fileMeta
-
+const progress = document.getElementById('progress')
 // TODO: add progress bar to receiver
 function get_offer() {
     let roomId = document.location.pathname.split('/')[2]
@@ -75,6 +75,7 @@ window.onload = () => {
             console.log("Message from peer: " + e.data)
             receiverBuffer.push(e.data)
             receivedSize += e.data.byteLength
+            progress.value = receivedSize/fileMeta.size * 100
             if (receivedSize === fileMeta.size) {
                 console.log('Download Complete!')
                 const blob = new Blob(receiverBuffer)
