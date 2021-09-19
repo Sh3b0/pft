@@ -19,13 +19,12 @@ Artifact document can be accessed from [here](https://docs.google.com/document/d
 
 ### 1. Sending files screen.
 The first page that a user sees is the page for sending files. A user will generate a link and send it to his/her peer. After they are connected, then they can share files simultaneously.
-
-<img src="Screenshots/Transfer File.png" width="720" height="480" />
+<img src="Screenshots/Transfer_file.png" width="720" height="480" />
 
 ### 2. Receiving files screen.<br />
 When a user wants to receive a file, they should be on the "Receive" page. After the link is generated and shared, the new peer who wants to connect pastes it in the designated input field to get connected. After the connection is successful, then they can share files simultaneously.
 
-<img src="Screenshots/Transfer File.png" width="720" height="480" />
+<img src="Screenshots/Receive_file.png" width="720" height="480" />
 
 ### 3. About us screen.
 Information about the team of developers behind this amazing tool is detailed here.  
