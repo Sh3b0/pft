@@ -9,9 +9,9 @@
 <body>
     <input id="fileInput" type="file"/>
     <button id="sendButton" disabled>Send file</button>
-    <button id="inviteButton" disabled>Generate invite link</button><br>
-    <progress id="progress" max="100" value="0"></progress>
-{#    <p id="progress"></p>#}
+    <button id="inviteButton" disabled>Generate invite link</button><br><br>
+    <progress id="progress" max="100" value="0"></progress><br>
+    <span>Status: </span><span id="status">Not connected</span>
 </body>
 
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>

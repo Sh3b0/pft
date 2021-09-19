@@ -1,14 +1,15 @@
-// Globals
+const progress = document.getElementById('progress')
+const status = document.getElementById('status')
 
 let downloadLink = document.getElementById('downloadLink')
 let remoteConnection, receiverBuffer = [], receivedSize = 0
-let offer, fileMeta
-const progress = document.getElementById('progress')
-// TODO: add progress bar to receiver
+let offer, fileMeta, receiveChannel
+
 function get_offer() {
     let roomId = document.location.pathname.split('/')[2]
     if (roomId === "") return
-    console.log("Getting offer and file meta from API...")
+    console.log("Getting offer...")
+    status.textContent = "Connecting"
     let xhr = new XMLHttpRequest()
     let roomLink = document.location.origin + '/api/' + roomId
     xhr.open("GET", roomLink, true)
@@ -36,25 +37,24 @@ function get_offer() {
 }
 
 function put_answer() {
-    console.log("Putting answer to API...")
+    console.log("Putting answer...")
+    status.textContent = "Connecting"
     let xhr = new XMLHttpRequest()
     let roomId = document.location.pathname.split('/')[2]
     let roomLink = document.location.origin + '/api/' + roomId
     xhr.open("PUT", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
 
-    remoteConnection.setRemoteDescription(offer).then(() => console.log("Connected to sender."))
-    remoteConnection.createAnswer().then(a => remoteConnection.setLocalDescription(a)).then(() => {
-        // answerP.innerHTML = JSON.stringify(remoteConnection.localDescription)
-        xhr.send(JSON.stringify(remoteConnection.localDescription))
-    })
+    remoteConnection.setRemoteDescription(offer)
+        .then(() => {
+            status.textContent = "Connected"
+            remoteConnection.createAnswer().then(a => remoteConnection.setLocalDescription(a))
+                .then(() => xhr.send(JSON.stringify(remoteConnection.localDescription)))
+                .catch(() => status.textContent = "Connection Error")
+        })
+        .catch(() => status.textContent = "Connection Error")
 
-    xhr.onreadystatechange = e => {
-        // console.log(e)
-        if (e.target.readyState === 4) {  // DONE
-            console.log("Response: " + xhr.response)
-        }
-    }
+
 }
 
 // Connection establishment
@@ -67,24 +67,24 @@ window.onload = () => {
         JSON.stringify(remoteConnection.localDescription)
     }
     remoteConnection.ondatachannel = e => {
-        const receiveChannel = e.channel
+        receiveChannel = e.channel
         receiveChannel.binaryType = 'arraybuffer'
         receiveChannel.onopen = () => console.log("Connection Opened")
         receiveChannel.onclose = () => console.log("Connection Closed")
         receiveChannel.onmessage = e => {
-            console.log("Message from peer: " + e.data)
+            // console.log("Message from peer: " + e.data)
             receiverBuffer.push(e.data)
             receivedSize += e.data.byteLength
-            progress.value = receivedSize/fileMeta.size * 100
+            progress.value = receivedSize / fileMeta.size * 100
             if (receivedSize === fileMeta.size) {
-                console.log('Download Complete!')
+                status.textContent = 'Download Complete!'
                 const blob = new Blob(receiverBuffer)
                 receiverBuffer = []
                 receivedSize = 0
                 downloadLink.href = URL.createObjectURL(blob)
                 downloadLink.download = fileMeta.name
                 downloadLink.textContent = `Download ${fileMeta.name}`
-                // TODO: closeChannel()
+                closeConnection()
             }
         }
         remoteConnection.channel = receiveChannel
@@ -92,3 +92,17 @@ window.onload = () => {
     }
     get_offer()
 }
+
+function closeConnection() {
+    console.log('Closing Connection...')
+    if (receiveChannel) {
+        receiveChannel.close()
+        receiveChannel = null
+    }
+    if (remoteConnection) {
+        remoteConnection.close()
+        remoteConnection = null
+    }
+}
+
+window.onbeforeunload = closeConnection
