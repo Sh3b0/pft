@@ -1,4 +1,4 @@
 __pycache__/
-.idea/
 venv/
 backend/r/*.json
+.DS_Store
