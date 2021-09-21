@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
 
 
-/* _____ Common CSS _________*/
+/* ______________ Common CSS __________________*/
 * {
     box-sizing: border-box;
     margin: 0;
@@ -21,11 +21,13 @@ header {
     display: flex;
     justify-content: space-around;
     align-items:flex-start;
-    padding: 30px 10px;
+    padding: 20px 10px;
+    border-bottom: 1px solid #D8E6E8;
 }
 
 .logo{
     cursor: pointer;
+    margin-left: 30px;
 }
 
 .nav_links {
@@ -41,4 +43,105 @@ header {
     color: #2AB7CA;
 }
 
+/* ________________ Transfer Page ___________________*/
 
+.main-header {
+    display: flex;
+    width: 66%;
+    margin-top: 40px;
+    margin-left: 18%;
+    /* gap: 180px; */
+    justify-content:space-between;
+    flex-wrap: wrap;
+}
+
+.main-text {
+    font-size: 40px;
+    font-weight: 400;
+    width: 400px;
+    height: 162px;
+    line-height: 60px;
+    color: #0F1020;
+    padding-bottom: 240px;
+}
+
+
+.info {
+    font-size: 12px;
+    color: #2AB7CA;
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.info-icon {
+    padding-right: 8px;
+}
+
+.link-create{
+    display: flex;
+    align-items: center;
+}
+
+.copy-link {
+    /* Button */
+    font-size: 16px;
+    font-weight: 500;
+    color: #F7F8FC;
+    border: none;
+    outline: none;
+    background-color: #2AB7CA;
+    padding: 15px 30px;
+    border-radius: 0 10px  10px 0;
+    cursor: pointer;
+}
+
+.copy-link:hover {
+    background-color: #0F1020;
+}
+
+.link-text {
+    display: flex;
+    align-items: center;
+    border: 1px solid #D8E6E8;
+    padding: 14px 30px;
+    border-radius: 10px 0 0 10px;
+    color: #5C6B73;
+}
+
+/* Drag- area css */
+.drag-area {
+    margin-top: 20px;
+    width: 440px;
+    height: 300px;
+    border: 2px dashed #2AB7CA;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.drag-header {
+    font-size: 20px;
+    color: #2AB7CA;
+    margin: 22px 0 14px 0;
+}
+
+
+.browse-file {
+    /* Button */
+    font-size: 16px;
+    font-weight: 500;
+    color: #F7F8FC;
+    border: none;
+    outline: none;
+    background-color: #2AB7CA;
+    padding: 15px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.browse-file:hover {
+    background-color: #0F1020;
+}
