@@ -1,11 +1,27 @@
-# Pipe File Transfer (PFT)
+[![made-with-javascript](https://img.shields.io/badge/Made%20with-JavaScript-f7df1e.svg)](https://www.javascript.com)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![GitHub stars](https://img.shields.io/github/stars/Sh3b0/pft)](https://github.com/Sh3B0/pft/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/yegor256/takes/blob/master/LICENSE.txt)
 
-## Description
+# Pipe File Transfer (PFT)
 PFT is a Web Application for simultaneous upload/download of files between users. It uses WebRTC as the underlying protocol.  
 The project is made as a part of Software Systems Analysis and Design Course (S21) at Innopolis University.  
 
+# Table of Contents
+- [Rational Unified Process (RUP)](https://github.com/Sh3B0/pft#Rational%20Unified%20Process%20(RUP))
+- [Sequence Diagram](https://github.com/Sh3B0/pft#Sequence%20Diagram)
+- [Features](https://github.com/Sh3B0/pft#Features)
+- [Screenshots](https://github.com/Sh3B0/pft#Screenshots)
+- [Frameworks and technology used](https://github.com/Sh3B0/pft#Frameworks%20and%20technology%20used)
+- [Contribution](https://github.com/Sh3B0/pft#Contribution)
+- [Credits](https://github.com/Sh3B0/pft#Credits)
+- [License](https://github.com/Sh3B0/pft#License)
+
 ## Rational Unified Process (RUP)
 Artifact document can be accessed from [here](https://docs.google.com/document/d/1GqM4aWmn1mIMESfchbyP4V_1bdpMjHSS/edit?usp=sharing&ouid=115455970424621213111&rtpof=true&sd=true)
+
+## Sequence Diagram
+<img src="./Sequence_Diagram.svg">
 
 ## Features
 * Generating a shareable link
@@ -34,9 +50,6 @@ Feel free to check stalk them :)
 - Flask for backend  
 - HTML, CSS, Vanilla JS for front-end and client-side  
 - WebRTC has to be supported by the user browser
-
-## Installation 
-- No installation required, the website will be hosted online soon.
 
 ## Contribution
 - Feel free to open a pull request, suggest a feature, or report a bug by creating an issue   
