@@ -67,7 +67,7 @@ header {
 
 
 .info {
-    font-size: 12px;
+    font-size: 13px;
     color: #2AB7CA;
     display: flex;
     align-items: center;
@@ -76,6 +76,7 @@ header {
 
 .info-icon {
     padding-right: 8px;
+    padding-top: 5px;
 }
 
 .link-create{
@@ -144,4 +145,78 @@ header {
 
 .browse-file:hover {
     background-color: #0F1020;
+}
+
+.notify{
+    font-size: 13px;
+    color: #22AA3A;
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.notify-icon {
+    padding-right: 8px;
+    padding-top:2px;
+}
+
+.how-to{
+    margin-left: 18%;
+    padding-top: 70px;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.tranfer-steps { 
+    display: flex;
+    width: 66%;
+    margin-top: 40px;
+    margin-left: 18%;
+    /* gap: 180px; */
+    justify-content:space-between;
+    flex-wrap: wrap;
+}
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title-steps {
+    color: #2AB7CA;
+    font-size: 18px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.para-steps {
+    color: #5C6B73;
+    width: 200px;
+    text-align: center;
+}
+
+footer{
+    font-size: 14px;
+    width: 66%;
+    color: #5C6B73;
+    display: flex;
+    margin-left: 18%;
+    position: fixed;
+    bottom:0;
+    height: 60px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    border-top: 1px solid #D8E6E8;
+
+}
+
+.right-foot{
+    display: flex;
+    width: 250px;
+    justify-content: space-between;
+    text-decoration: underline;
+    cursor: pointer;
+    flex-wrap: wrap;
 }
