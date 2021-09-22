@@ -1,6 +1,7 @@
 const fileInput = document.getElementById('fileInput')
 const sendButton = document.getElementById('sendButton')
-const inviteButton = document.getElementById('inviteButton')
+// const inviteButton = document.getElementById('inviteButton')
+const inviteLink = document.getElementById('inviteLink')
 const progress = document.getElementById('progress')
 const status = document.getElementById('status')
 
@@ -30,18 +31,16 @@ window.onload = () => {
 // Toggle send/invite button
 fileInput.onchange = () => {
     console.log('File input changed')
-    let size = fileInput.files[0].size
-    if (size < 1e9) {
-        inviteButton.disabled = !fileInput.files.length
-    } else {
-        inviteButton.disabled = true
-        fileInput.value = ''
-        alert("File is too large (limit: 1GB)")
+    fileMeta = {
+        name: fileInput.files[0].name,
+        size: fileInput.files[0].size,
+        last_modified: fileInput.files[0].lastModified,
     }
+    put_offer()
 }
 
 // SendButton functionality
-sendButton.onclick = e => {
+function sendFile() {
     console.log('Sending file: ' + e)
     sendButton.disabled = true
 
@@ -52,7 +51,6 @@ sendButton.onclick = e => {
 
     // Reads chunkSize bytes of the file, starting from byte o
     const readChunk = o => {
-        // console.log("Reading chunk, starting from ", o);
         const slice = file.slice(o, o + chunkSize)
         fileReader.readAsArrayBuffer(slice)
     }
@@ -108,8 +106,7 @@ function put_offer() {
     xhr.open("PUT", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send(JSON.stringify(Object.assign({}, latestOffer.toJSON(), fileMeta)))
-    let inviteLink = document.location.origin + '/receiver/' + roomId
-    alert(inviteLink)
+    inviteLink.textContent = document.location.origin + '/receive/' + roomId
     get_answer()
 }
 
@@ -128,32 +125,20 @@ function get_answer() {
             // console.log("Response: " + xhr.response)
             let rsp = JSON.parse(JSON.parse(xhr.response))
             if (rsp.type === "answer") {
-                status.textContent = "Connecting"
+                status.textContent = "Connecting..."
                 localConnection.setRemoteDescription(rsp)
                     .then(() => {
-                        status.textContent = 'Connected'
-                        sendButton.disabled = false
-                        inviteButton.disabled = true
+                        status.textContent = 'A person joined the pipe and you’re ready to exchange files!'
+                        sendFile()
                         return 0
                     })
-                    .catch(() => status.textContent = 'Connection Error')
+                    .catch(() => status.textContent = 'Connection Error :(')
 
             } else if (rsp.type === 'offer') {
                 setTimeout(get_answer, 1000)
             }
         }
     }
-}
-
-
-// InviteButton functionality
-inviteButton.onclick = () => {
-    fileMeta = {
-        name: fileInput.files[0].name,
-        size: fileInput.files[0].size,
-        last_modified: fileInput.files[0].lastModified,
-    }
-    put_offer()
 }
 
 

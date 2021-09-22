@@ -13,6 +13,7 @@ The project is made as a part of Software Systems Analysis and Design Course (S2
 - [Features](https://github.com/Sh3B0/pft#Features)
 - [Screenshots](https://github.com/Sh3B0/pft#Screenshots)
 - [Frameworks and technology used](https://github.com/Sh3B0/pft#Frameworks%20and%20technology%20used)
+- [Local testing](https://github.com/Sh3B0/pft#Local-testing)
 - [Contribution](https://github.com/Sh3B0/pft#Contribution)
 - [Credits](https://github.com/Sh3B0/pft#Credits)
 - [License](https://github.com/Sh3B0/pft#License)
@@ -50,6 +51,10 @@ Feel free to check stalk them :)
 - Flask for backend  
 - HTML, CSS, Vanilla JS for front-end and client-side  
 - WebRTC has to be supported by the user browser
+
+## Local testing
+1. Install requirements `pip install -r requirements.txt`
+2. run `python3 server.py`
 
 ## Contribution
 - Feel free to open a pull request, suggest a feature, or report a bug by creating an issue   

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1394e5c2-0c53-4c88-8551-0d837ce87817" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/templates/receiver.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pft.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pft.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/static/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/static/js/receiver.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/receiver.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/static/js/sender.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/sender.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/templates/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/templates/receiver.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/templates/sender.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/Logo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/Logo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/cloudupload.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/cloudupload.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/connect.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/connect.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/copy-how.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/copy-how.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/copy.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/copy.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/illustration.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/illustration.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/information.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/information.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/link.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/link.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/paste-how.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/paste-how.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/receive-how.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/receive-how.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/share-how.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/share-how.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/success.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/success.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/upload.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/upload.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pics-icons/wait.svg" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/wait.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/aboutus.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/aboutus.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/mainjs.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/mainjs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/receive.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/transfer.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sender.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1yVbtqrtcFIMTyVyvv6aFp8Jgaq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/static/styles" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ahmed\Desktop\pft\static\styles" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ahmed\Desktop\pft\static\icons" />
+      <recent name="C:\Users\ahmed\Desktop\pft\static" />
+      <recent name="C:\Users\ahmed\Desktop\pft\static\js" />
+      <recent name="C:\Users\ahmed\Desktop\pft\templates" />
+      <recent name="C:\Users\ahmed\Desktop\pft\static\styles" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="server" type="PythonConfigurationType" factoryName="Python">
+      <module name="pft" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\ahmed\Desktop\pft\venv\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/server.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1394e5c2-0c53-4c88-8551-0d837ce87817" name="Default Changelist" comment="" />
+      <created>1632339923717</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1632339923717</updated>
+      <workItem from="1632339927106" duration="753000" />
+      <workItem from="1632344465364" duration="8777000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/pft$server.coverage" NAME="server Coverage Results" MODIFIED="1632354850509" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
