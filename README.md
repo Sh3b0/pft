@@ -1,5 +1,7 @@
 [![made-with-javascript](https://img.shields.io/badge/Made%20with-JavaScript-f7df1e.svg)](https://www.javascript.com)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![GitHub issues](https://img.shields.io/github/issues/sh3b0/pft)](https://gitHub.com/sh3bo/pft/issues/)
+[![GitHub pull-requests](https://img.shields.io/github/issues-pr/sh3b0/pft)](https://gitHub.com/sh3bo/pft/pulls/)
 [![GitHub stars](https://img.shields.io/github/stars/Sh3b0/pft)](https://github.com/Sh3B0/pft/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/yegor256/takes/blob/master/LICENSE.txt)
 
