@@ -16,10 +16,8 @@ function get_offer() {
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send()
     xhr.onreadystatechange = e => {
-        // console.log(e)
         if (e.target.readyState === 4) {
             let rsp = JSON.parse(JSON.parse(xhr.response))
-            // console.log(rsp)
             offer = {
                 type: rsp.type,
                 sdp: rsp.sdp
@@ -29,8 +27,6 @@ function get_offer() {
                 size: rsp["size"],
                 last_modifed: rsp["last_modified"]
             }
-            // console.log(offer)
-            // console.log(fileMeta)
             put_answer()
         }
     }

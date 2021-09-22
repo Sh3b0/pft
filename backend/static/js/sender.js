@@ -6,14 +6,16 @@ const status = document.getElementById('status')
 
 let localConnection, sendChannel, latestOffer, fileMeta
 
-// TODO: resend ice candidates as they arrive
-// TODO: handle erroneous situations
+// TODO: [Optional] resend ice candidates as they arrive to ensure connection stability.
+// TODO: [Optional] check the possibility of increasing speed without breaking the connection.
+// TODO: [Optional] add upload stats (elapsed time, MBs, upload rate) in sender.
+// TODO: handle erroneous situations (add unit tests)
 
 // Creating local connection
 window.onload = () => {
     const conf = {iceServers: [{urls: 'stun:stun1.l.google.com:19302'}]}
     localConnection = new RTCPeerConnection(conf)
-    localConnection.onicecandidate = e => {
+    localConnection.onicecandidate = () => {
         console.log("New ice candidate")
         latestOffer = localConnection.localDescription
     }
@@ -65,8 +67,11 @@ sendButton.onclick = e => {
         closeConnection()
     }
 
+    // On reading a part of the file, we send that part
+    fileReader.onload = sendChunk
+
     async function sendChunk() {
-        await timeout(1)
+        await timeout(0.1)
         console.log("Sending chunk")
         sendChannel.send(fileReader.result)
         so_far += fileReader.result.byteLength
@@ -78,9 +83,6 @@ sendButton.onclick = e => {
             readChunk(so_far)
         }
     }
-
-    // On reading a part of the file, we send that part
-    fileReader.onload = sendChunk
 }
 
 
@@ -105,14 +107,7 @@ function put_offer() {
     let roomLink = document.location.origin + '/api/' + roomId
     xhr.open("PUT", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
-    // console.log('MSG = ' + JSON.stringify(Object.assign({}, latestOffer.toJSON(), fileMeta)))
-
     xhr.send(JSON.stringify(Object.assign({}, latestOffer.toJSON(), fileMeta)))
-    xhr.onreadystatechange = e => {
-        if (e.target.readyState === 4) {  // DONE
-            // console.log("Response: " + xhr.response)
-        }
-    }
     let inviteLink = document.location.origin + '/receiver/' + roomId
     alert(inviteLink)
     get_answer()
