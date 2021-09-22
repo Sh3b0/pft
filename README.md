@@ -21,7 +21,7 @@ The project is made as a part of Software Systems Analysis and Design Course (S2
 Artifact document can be accessed from [here](https://docs.google.com/document/d/1GqM4aWmn1mIMESfchbyP4V_1bdpMjHSS/edit?usp=sharing&ouid=115455970424621213111&rtpof=true&sd=true)
 
 ## Sequence Diagram
-<img src="./Sequence_Diagram.svg">
+<img src="./Screenshots/Sequence_Diagram.svg">
 
 ## Features
 * Generating a shareable link
