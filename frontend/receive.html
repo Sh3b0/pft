@@ -4,9 +4,107 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>PFT Website</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-    
+    <header>
+        <img class="logo" src="/frontend/Pics-icons/Logo.svg" alt="logo">
+        <nav>
+            <ul class="nav_links">
+                <li><a href="/frontend/transfer.html">Transfer files</a></li>  
+                <li><a href="#"> <span style="color: #2AB7CA">Receive files </span></a></li>  
+                <li><a href="#">About Us</a></li>  
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main-header">
+
+        <div class="left-main">
+
+            <div class="main-text"> Receive <span style="color:#2AB7CA; font-weight: 600;">your files</span> 
+                fast and easily through a <span style="color:#2AB7CA; font-weight: 600;">Pipe Connection</span>
+            </div>
+
+
+            <div class="info">
+                <div class="info-icon"><img src="/frontend/Pics-icons/information.svg" alt=""></div>
+                <p>After a pipe connection is set, you don’t have to renew link/reload page again.</p>
+            </div>
+
+            <div class="link-create">
+                <div class="link-receive">
+                    <input type="text" placeholder="Paste your link here">
+                </div> 
+                <button class="copy-link"> Connect </button>
+            </div>
+
+            <div class="notify">
+                <div class="notify-icon"><img src="/frontend/Pics-icons/success.svg" alt=""></div>
+                <p>You joined the pipe and you’re ready to exchange files!!</p>
+            </div>
+
+        </div>
+        <div class="right-main">
+
+            <div class="right-illustration">
+                <div class="illustration"> <img src="/frontend/Pics-icons/illustration.svg" alt=""></div>
+            </div>
+
+            <div class="progress-text"> <p>Downloading 60% ...</p> </div>
+            <div class="progress">
+                <div class="progress-fill"></div>
+            </div>
+
+        </div>
+        
+    </div>
+
+    <div class="how-to"><p>How to receive a file ?</p></div>
+
+    <div class="tranfer-steps">
+            <div class="steps">
+                <div class="img-steps"><img src="/frontend/Pics-icons/link.svg" alt=""></div>
+                <div class="title-steps">1. Get a link</div>
+                <div class="para-steps">
+                    <p>A friend should have created a pipe already. Get the same link from your friend.</p>
+                </div>
+            </div>
+
+            <div class="steps">
+                <div class="img-steps"><img src="/frontend/Pics-icons/paste-how.svg" alt=""></div>
+                <div class="title-steps">2. Paste link</div>
+                <div class="para-steps">
+                    <p>Paste the given link from your friend in the designated field and connect.</p>
+                </div>
+            </div>
+
+            <div class="steps">
+                <div class="img-steps"><img src="/frontend/Pics-icons/wait.svg" alt=""></div>
+                <div class="title-steps">3. Wait your peer</div>
+                <div class="para-steps">
+                    <p>Wait for connection to be set and it usually takes 1-2 seconds.</p>
+                </div>
+            </div>
+
+            <div class="steps">
+                <div class="img-steps"><img src="/frontend/Pics-icons/receive-how.svg" alt=""></div>
+                <div class="title-steps">4. Share Files</div>
+                <div class="para-steps">
+                    <p>Start sharing files with your peer and enjoy the fastest file transfer.</p>
+                </div>
+            </div>
+    </div>
+
+    <footer>
+        <div class="left-foot"><p>©2021 All Rights Reserved.</p></div>
+        <div class="right-foot">
+            <p>Terms Of Service</p>
+            <p>Privacy Policy</p>
+        </div>
+    </footer>
 </body>
 </html>

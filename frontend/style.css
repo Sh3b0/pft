@@ -102,18 +102,34 @@ header {
 }
 
 .link-text {
+    font-size: 16px;
     display: flex;
     align-items: center;
     border: 1px solid #D8E6E8;
     padding: 14px 30px;
     border-radius: 10px 0 0 10px;
-    color: #5C6B73;
+    color: #aec8cc;
+    width: 325px;
+
+}
+.notify{
+    font-size: 13px;
+    color: #22AA3A;
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.notify-icon {
+    padding-right: 8px;
+    padding-top:2px;
 }
 
 /* Drag- area css */
+
 .drag-area {
     margin-top: 20px;
-    width: 440px;
+    width: 380px;
     height: 300px;
     border: 2px dashed #2AB7CA;
     border-radius: 20px;
@@ -147,24 +163,37 @@ header {
     background-color: #0F1020;
 }
 
-.notify{
-    font-size: 13px;
-    color: #22AA3A;
+.progress-text{
+    margin-top: 13px;
     display: flex;
-    align-items: center;
-    padding-top: 10px;
+    width: 380px;
+    gap: 3px;
+    color: #5C6B73;
+    font-size: 14px;
+    justify-content: space-around;
+}
+.progress {
+    margin-top: 8px;
+    width: 380px;
+    height: 13px;
+    background-color: #F7F8FC;
+    border: 1px solid #2AB7CA;
+    border-radius: 20px;
+    overflow: hidden;
 }
 
-.notify-icon {
-    padding-right: 8px;
-    padding-top:2px;
+.progress-fill {
+    width: 60%;
+    height: 100%;
+    background: #2AB7CA;
 }
 
+/* ________________________ */
 .how-to{
     margin-left: 18%;
     padding-top: 70px;
     font-size: 30px;
-    font-weight: 500;
+    font-weight: 530;
 }
 
 .tranfer-steps { 
@@ -175,6 +204,7 @@ header {
     /* gap: 180px; */
     justify-content:space-between;
     flex-wrap: wrap;
+    padding-bottom: 40px;
 }
 
 .steps {
@@ -202,14 +232,12 @@ footer{
     color: #5C6B73;
     display: flex;
     margin-left: 18%;
-    position: fixed;
-    bottom:0;
-    height: 60px;
+    bottom:15px;
     justify-content: space-between;
     flex-wrap: wrap;
     padding-top: 20px;
+    padding-bottom: 30px;
     border-top: 1px solid #D8E6E8;
-
 }
 
 .right-foot{
@@ -220,3 +248,46 @@ footer{
     cursor: pointer;
     flex-wrap: wrap;
 }
+
+
+/* ___________ Receive Files page __________ */
+
+.right-illustration{
+    margin-top: 20px;
+    width: 440px;
+    height: 300px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.illustration {
+    height: auto;
+    width: auto;
+}
+
+
+input{
+    border: 1px solid #D8E6E8;
+    padding:30px;
+    border-radius: 10px 0 0 10px;
+    font-size: 16px;
+    padding: 14px 30px;
+    width: 370px;
+}
+
+input:hover{
+    border: 1px solid  #2AB7CA;
+}
+
+input:focus{
+    border: 1px solid  #2AB7CA;
+    outline: #2AB7CA;
+    color:#0F1020
+}
+
+::placeholder {
+    color: #aec8cc;
+  }
