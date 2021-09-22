@@ -8,11 +8,11 @@ PFT is a Web Application for simultaneous upload/download of files between users
 The project is made as a part of Software Systems Analysis and Design Course (S21) at Innopolis University.  
 
 # Table of Contents
-- [Rational Unified Process (RUP)](https://github.com/Sh3B0/pft#Rational%20Unified%20Process%20(RUP))
-- [Sequence Diagram](https://github.com/Sh3B0/pft#Sequence%20Diagram)
+- [Rational Unified Process (RUP)](https://github.com/Sh3B0/pft#Rational-Unified-Process-RUP)
+- [Sequence Diagram](https://github.com/Sh3B0/pft#Sequence-Diagram)
 - [Features](https://github.com/Sh3B0/pft#Features)
 - [Screenshots](https://github.com/Sh3B0/pft#Screenshots)
-- [Frameworks and technology used](https://github.com/Sh3B0/pft#Frameworks%20and%20technology%20used)
+- [Frameworks and technology used](https://github.com/Sh3B0/pft#Frameworks-and-technology-used)
 - [Contribution](https://github.com/Sh3B0/pft#Contribution)
 - [Credits](https://github.com/Sh3B0/pft#Credits)
 - [License](https://github.com/Sh3B0/pft#License)
