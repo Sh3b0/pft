@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}" type="image/x-icon">
 </head>
 <body>
     <header>
@@ -38,25 +39,24 @@
             <div class="link-create">
                 <div class="link-receive">
                     <label>
-                        <input type="text" placeholder="Paste your link here">
+                        <input id="invite-link" type="text" placeholder="Paste invitation link or room id">
                     </label>
                 </div>
-                <button class="copy-link"> Connect </button>
+                <button class="action-button" id="connect-button"> Connect </button>
             </div>
 
             <div class="notify">
                 <div class="notify-icon"><img src="{{ url_for('static', filename='icons/success.svg') }}" alt=""></div>
-                <p id="status">You joined the pipe and you’re ready to exchange files!!</p>
+                <p id="status"> Not connected </p>
             </div>
 
         </div>
         <div class="right-main">
-
             <div class="right-illustration">
                 <div class="illustration"> <img src="{{ url_for('static', filename='icons/illustration.svg') }}" alt=""></div>
             </div>
 
-            <div class="progress-text"> <p>Downloading 60% ...</p> </div>
+            <div class="progress-text"><p> </p></div>
             <div class="progress">
                 <div class="progress-fill"></div>
             </div>
@@ -111,4 +111,5 @@
 </body>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="{{ url_for('static', filename='js/receiver.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </html>

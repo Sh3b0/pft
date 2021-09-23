@@ -1,9 +1,10 @@
-const fileInput = document.getElementById('fileInput')
-const sendButton = document.getElementById('sendButton')
-// const inviteButton = document.getElementById('inviteButton')
-const inviteLink = document.getElementById('inviteLink')
-const progress = document.getElementById('progress')
+const fileInput = document.getElementById('file-input')
+const inviteLink = document.getElementById('invite-link')
 const status = document.getElementById('status')
+const progress = document.getElementsByClassName('progress')[0]
+const progressFill = document.getElementsByClassName('progress-fill')[0]
+const progressText = document.getElementsByClassName('progress-text')[0]
+const copyLinkButton = document.getElementById('copy-link')
 
 let localConnection, sendChannel, latestOffer, fileMeta
 
@@ -21,31 +22,32 @@ window.onload = () => {
         latestOffer = localConnection.localDescription
     }
     sendChannel = localConnection.createDataChannel("sendChannel")
+    sendChannel.onopen = sendFile
     sendChannel.onmessage = e => console.log("Message from peer: " + e.data)
-    sendChannel.onreadystatechange = e => {
-        console.log(e.connectionState)
-    }
     localConnection.createOffer().then(o => localConnection.setLocalDescription(o))
 }
 
 // Toggle send/invite button
-fileInput.onchange = () => {
+function onFileInputChange() {
     console.log('File input changed')
     fileMeta = {
         name: fileInput.files[0].name,
         size: fileInput.files[0].size,
         last_modified: fileInput.files[0].lastModified,
     }
-    put_offer()
+    if (sendChannel.readyState === 'open') {
+        sendFile()
+    } else {
+        put_offer()
+    }
 }
+
 
 // SendButton functionality
 function sendFile() {
-    console.log('Sending file: ' + e)
-    sendButton.disabled = true
-
     const fileReader = new FileReader();
     const chunkSize = 16000
+    if (fileInput.files.length === 0) return
     const file = fileInput.files[0]
     let so_far = 0
 
@@ -55,13 +57,9 @@ function sendFile() {
         fileReader.readAsArrayBuffer(slice)
     }
     readChunk(0)  // Start sending file
-
+    progress.style.display = "flex"
     fileReader.onerror = e => {
         console.error('Error reading file: ', e)
-        closeConnection()
-    }
-    fileReader.onabort = e => {
-        console.log('Aborting: ', e)
         closeConnection()
     }
 
@@ -73,9 +71,10 @@ function sendFile() {
         console.log("Sending chunk")
         sendChannel.send(fileReader.result)
         so_far += fileReader.result.byteLength
-        progress.value = so_far / file.size * 100
-        if (progress.value === 100) {
-            status.textContent = "Upload Complete"
+        progressText.innerText = "Sending " + (so_far / file.size * 100).toFixed(2).toString() + "% ..."
+        progressFill.style.width = (so_far / file.size * 100).toString() + "%"
+        if (so_far === file.size) {
+            status.textContent = "Upload Complete!"
         }
         if (so_far < file.size) {
             readChunk(so_far)
@@ -106,7 +105,8 @@ function put_offer() {
     xhr.open("PUT", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send(JSON.stringify(Object.assign({}, latestOffer.toJSON(), fileMeta)))
-    inviteLink.textContent = document.location.origin + '/receive/' + roomId
+    inviteLink.textContent = document.location.origin + '/r/' + roomId
+    inviteLink.style.color = "black"
     get_answer()
 }
 
@@ -128,12 +128,10 @@ function get_answer() {
                 status.textContent = "Connecting..."
                 localConnection.setRemoteDescription(rsp)
                     .then(() => {
-                        status.textContent = 'A person joined the pipe and you’re ready to exchange files!'
-                        sendFile()
+                        status.textContent = 'Connected'
                         return 0
                     })
-                    .catch(() => status.textContent = 'Connection Error :(')
-
+                    .catch(() => status.textContent = 'Connection Error')
             } else if (rsp.type === 'offer') {
                 setTimeout(get_answer, 1000)
             }
@@ -141,7 +139,7 @@ function get_answer() {
     }
 }
 
-
+// Closes Data Channel
 function closeConnection() {
     console.log('Closing Connection...')
     if (sendChannel) {
@@ -155,4 +153,10 @@ function closeConnection() {
     fileInput.disabled = false
 }
 
+// Copy link button functionality
+copyLinkButton.onclick = () => {
+    navigator.clipboard.writeText(document.getElementById("invite-link").textContent).then()
+}
+
 window.onbeforeunload = closeConnection
+fileInput.onchange = onFileInputChange

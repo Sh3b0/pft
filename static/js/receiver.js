@@ -1,17 +1,59 @@
-const progress = document.getElementById('progress')
 const status = document.getElementById('status')
+const progress = document.getElementsByClassName('progress')[0]
+const progressFill = document.getElementsByClassName('progress-fill')[0]
+const progressText = document.getElementsByClassName('progress-text')[0]
+const connectButton = document.getElementById('connect-button')
+const inviteLink = document.getElementById('invite-link')
 
-let downloadLink = document.getElementById('downloadLink')
 let remoteConnection, receiverBuffer = [], receivedSize = 0
 let offer, fileMeta, receiveChannel
 
-function get_offer() {
-    let roomId = document.location.pathname.split('/')[2]
-    if (roomId === "") return
+// Connection establishment
+window.onload = () => {
+    console.log("Window loaded")
+    const conf = {iceServers: [{urls: 'stun:stun1.l.google.com:19302'}]}
+    remoteConnection = new RTCPeerConnection(conf)
+    remoteConnection.onicecandidate = () => {
+        console.log("New ice candidate")
+        JSON.stringify(remoteConnection.localDescription)
+    }
+    remoteConnection.ondatachannel = e => {
+        receiveChannel = e.channel
+        receiveChannel.binaryType = 'arraybuffer'
+        receiveChannel.onopen = () => {
+            progress.style.display = "flex"
+        }
+        receiveChannel.onmessage = e => {
+            receiverBuffer.push(e.data)
+            receivedSize += e.data.byteLength
+            progressText.innerText = "Downloading " +
+                (receivedSize / fileMeta.size * 100).toFixed(2).toString() + "% ..."
+            progressFill.style.width = (receivedSize / fileMeta.size * 100).toString() + "%"
+            if (receivedSize === fileMeta.size) {
+                status.textContent = 'Download Complete!'
+                const blob = new Blob(receiverBuffer)
+                receiverBuffer = []
+                receivedSize = 0
+                let downloadLink = document.createElement('a')
+                downloadLink.href = URL.createObjectURL(blob)
+                downloadLink.download = fileMeta.name
+                downloadLink.click()
+                receiverBuffer = []
+                receivedSize = 0
+            }
+        }
+        remoteConnection.channel = receiveChannel
+        remoteConnection.addEventListener('datachannel',)
+    }
+    get_offer(document.location.pathname.split('/')[2])
+}
+
+function get_offer(room_id) {
+    if (room_id === "") return
     console.log("Getting offer...")
     status.textContent = "Connecting"
     let xhr = new XMLHttpRequest()
-    let roomLink = document.location.origin + '/api/' + roomId
+    let roomLink = document.location.origin + '/api/' + room_id
     xhr.open("GET", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send()
@@ -27,17 +69,16 @@ function get_offer() {
                 size: rsp["size"],
                 last_modifed: rsp["last_modified"]
             }
-            put_answer()
+            put_answer(room_id)
         }
     }
 }
 
-function put_answer() {
+function put_answer(room_id) {
     console.log("Putting answer...")
     status.textContent = "Connecting"
     let xhr = new XMLHttpRequest()
-    let roomId = document.location.pathname.split('/')[2]
-    let roomLink = document.location.origin + '/api/' + roomId
+    let roomLink = document.location.origin + '/api/' + room_id
     xhr.open("PUT", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
 
@@ -49,44 +90,6 @@ function put_answer() {
                 .catch(() => status.textContent = "Connection Error")
         })
         .catch(() => status.textContent = "Connection Error")
-
-
-}
-
-// Connection establishment
-window.onload = () => {
-    console.log("Window loaded")
-    const conf = {iceServers: [{urls: 'stun:stun1.l.google.com:19302'}]}
-    remoteConnection = new RTCPeerConnection(conf)
-    remoteConnection.onicecandidate = () => {
-        console.log("New ice candidate")
-        JSON.stringify(remoteConnection.localDescription)
-    }
-    remoteConnection.ondatachannel = e => {
-        receiveChannel = e.channel
-        receiveChannel.binaryType = 'arraybuffer'
-        receiveChannel.onopen = () => console.log("Connection Opened")
-        receiveChannel.onclose = () => console.log("Connection Closed")
-        receiveChannel.onmessage = e => {
-            // console.log("Message from peer: " + e.data)
-            receiverBuffer.push(e.data)
-            receivedSize += e.data.byteLength
-            progress.value = receivedSize / fileMeta.size * 100
-            if (receivedSize === fileMeta.size) {
-                status.textContent = 'Download Complete!'
-                const blob = new Blob(receiverBuffer)
-                receiverBuffer = []
-                receivedSize = 0
-                downloadLink.href = URL.createObjectURL(blob)
-                downloadLink.download = fileMeta.name
-                downloadLink.textContent = `Download ${fileMeta.name}`
-                closeConnection()
-            }
-        }
-        remoteConnection.channel = receiveChannel
-        remoteConnection.addEventListener('datachannel',)
-    }
-    get_offer()
 }
 
 function closeConnection() {
@@ -101,4 +104,15 @@ function closeConnection() {
     }
 }
 
+connectButton.onclick = () => {
+    let room = inviteLink.value
+    console.log(room)
+    if (Number.isInteger(parseInt(room))) {
+        get_offer(room)
+    } else if (Number.isInteger(parseInt(room.split('/').slice(-1)[0]))) {
+        get_offer(room.split('/').slice(-1)[0])
+    } else {
+        alert("Invalid invitation link or room id.")
+    }
+}
 window.onbeforeunload = closeConnection

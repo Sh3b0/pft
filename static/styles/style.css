@@ -36,7 +36,7 @@ header {
 
 .nav_links li {
     display: inline-block;
-    padding: 0px 20px;
+    padding: 0 20px;
 }
 
 .nav_links li a:hover {
@@ -84,7 +84,7 @@ header {
     align-items: center;
 }
 
-.copy-link {
+.action-button {
     /* Button */
     font-size: 16px;
     font-weight: 500;
@@ -97,7 +97,7 @@ header {
     cursor: pointer;
 }
 
-.copy-link:hover {
+.action-button:hover {
     background-color: #0F1020;
 }
 
@@ -173,6 +173,7 @@ header {
     justify-content: space-around;
 }
 .progress {
+    display: none;
     margin-top: 8px;
     width: 380px;
     height: 13px;
@@ -183,7 +184,7 @@ header {
 }
 
 .progress-fill {
-    width: 60%;
+    width: 0;
     height: 100%;
     background: #2AB7CA;
 }
@@ -271,7 +272,6 @@ footer{
 
 input{
     border: 1px solid #D8E6E8;
-    padding:30px;
     border-radius: 10px 0 0 10px;
     font-size: 16px;
     padding: 14px 30px;

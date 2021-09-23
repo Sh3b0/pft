@@ -8,8 +8,8 @@ def home():
     return render_template('sender.html')
 
 
-@app.route('/receive/', defaults={'room_id': None})
-@app.route('/receive/<room_id>/')
+@app.route('/r/', defaults={'room_id': None})
+@app.route('/r/<room_id>/')
 def receive(room_id):
     return render_template('receiver.html')
 
