@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1394e5c2-0c53-4c88-8551-0d837ce87817" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/static/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/icons/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/static/icons/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/mainjs.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/static/js/receiver.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/receiver.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/js/sender.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/sender.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/styles/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/receiver.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/receiver.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sender.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sender.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +59,10 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.server">
-    <configuration name="sender" type="JavascriptDebugType" uri="https://localhost:5000/sender">
+    <configuration name="receiver" type="JavascriptDebugType" uri="https://localhost:5000/r">
+      <method v="2" />
+    </configuration>
+    <configuration name="sender" type="JavascriptDebugType" uri="https://localhost:5000/">
       <method v="2" />
     </configuration>
     <configuration name="server" type="PythonConfigurationType" factoryName="Python">
@@ -94,6 +89,7 @@
     </configuration>
     <list>
       <item itemvalue="JavaScript Debug.sender" />
+      <item itemvalue="JavaScript Debug.receiver" />
       <item itemvalue="Python.server" />
     </list>
   </component>
@@ -107,7 +103,8 @@
       <updated>1632339923717</updated>
       <workItem from="1632339927106" duration="753000" />
       <workItem from="1632344465364" duration="9179000" />
-      <workItem from="1632419586938" duration="17759000" />
+      <workItem from="1632419586938" duration="19088000" />
+      <workItem from="1632473392944" duration="2647000" />
     </task>
     <servers />
   </component>
@@ -115,6 +112,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pft$server.coverage" NAME="server Coverage Results" MODIFIED="1632440956892" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pft$server.coverage" NAME="server Coverage Results" MODIFIED="1632476073801" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

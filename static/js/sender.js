@@ -11,11 +11,18 @@ let localConnection, sendChannel, latestOffer, fileMeta
 // TODO: [Optional] resend ice candidates as they arrive to ensure connection stability.
 // TODO: [Optional] check the possibility of increasing speed without breaking the connection.
 // TODO: [Optional] add upload stats (elapsed time, MBs, upload rate) in sender.
-// TODO: handle erroneous situations (add unit tests)
+// TODO: [Optional] allow sending multiple files in the same connection
+// TODO: [Optional] check the possibility of pausing/continuing connection (detect and recover from packet loss)
+// TODO: [Optional] Add automated tests
 
 // Creating local connection
 window.onload = () => {
-    const conf = {iceServers: [{urls: 'stun:stun1.l.google.com:19302'}]}
+    const conf = {
+        iceServers: [{
+            urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302',
+                'stun:stun3.l.google.com:19302', 'stun:stun4.l.google.com:19302']
+        }]
+    }
     localConnection = new RTCPeerConnection(conf)
     localConnection.onicecandidate = () => {
         console.log("New ice candidate")
@@ -35,7 +42,7 @@ function onFileInputChange() {
         size: fileInput.files[0].size,
         last_modified: fileInput.files[0].lastModified,
     }
-    if (sendChannel.readyState === 'open') {
+    if (sendChannel && sendChannel.readyState === 'open') {
         sendFile()
     } else {
         put_offer()
@@ -68,7 +75,6 @@ function sendFile() {
 
     async function sendChunk() {
         await timeout(0.1)
-        console.log("Sending chunk")
         sendChannel.send(fileReader.result)
         so_far += fileReader.result.byteLength
         progressText.innerText = "Sending " + (so_far / file.size * 100).toFixed(2).toString() + "% ..."
