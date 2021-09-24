@@ -10,13 +10,7 @@ let offer, fileMeta, receiveChannel
 
 // Connection establishment
 window.onload = () => {
-    console.log("Window loaded")
-   const conf = {
-        iceServers: [{
-            urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302',
-                'stun:stun3.l.google.com:19302', 'stun:stun4.l.google.com:19302']
-        }]
-    }
+    const conf = {iceServers: [{urls: 'stun:stun.l.google.com:19302'}]}
     remoteConnection = new RTCPeerConnection(conf)
     remoteConnection.onicecandidate = () => {
         console.log("New ice candidate")

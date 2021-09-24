@@ -8,7 +8,8 @@ const copyLinkButton = document.getElementById('copy-link')
 
 let localConnection, sendChannel, latestOffer, fileMeta
 
-// TODO: [Optional] resend ice candidates as they arrive to ensure connection stability.
+// TODO: Use https with gunicorn to allow link copy
+// TODO: [Enhancement] resend ice candidates as they arrive to ensure connection stability.
 // TODO: [Optional] check the possibility of increasing speed without breaking the connection.
 // TODO: [Optional] add upload stats (elapsed time, MBs, upload rate) in sender.
 // TODO: [Optional] allow sending multiple files in the same connection
@@ -18,10 +19,14 @@ let localConnection, sendChannel, latestOffer, fileMeta
 // Creating local connection
 window.onload = () => {
     const conf = {
-        iceServers: [{
-            urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302',
-                'stun:stun3.l.google.com:19302', 'stun:stun4.l.google.com:19302']
-        }]
+        iceServers: [
+            {
+                urls: ['stun:stun.l.google.com:19302']
+            }, {
+                url: 'turn:turn.anyfirewall.com:443?transport=tcp',
+                credential: 'webrtc',
+                username: 'webrtc'
+            }]
     }
     localConnection = new RTCPeerConnection(conf)
     localConnection.onicecandidate = () => {
