@@ -4,7 +4,6 @@ const status = document.getElementById('status')
 const progress = document.getElementsByClassName('progress')[0]
 const progressFill = document.getElementsByClassName('progress-fill')[0]
 const progressText = document.getElementsByClassName('progress-text')[0]
-const copyLinkButton = document.getElementById('copy-link')
 
 let localConnection, sendChannel, latestOffer, fileMeta
 
@@ -18,16 +17,7 @@ let localConnection, sendChannel, latestOffer, fileMeta
 
 // Creating local connection
 window.onload = () => {
-    const conf = {
-        iceServers: [
-            {
-                urls: ['stun:stun.l.google.com:19302']
-            }, {
-                url: 'turn:turn.anyfirewall.com:443?transport=tcp',
-                credential: 'webrtc',
-                username: 'webrtc'
-            }]
-    }
+    const conf = {iceServers: [{urls: ['stun:stun.l.google.com:19302']}]}
     localConnection = new RTCPeerConnection(conf)
     localConnection.onicecandidate = () => {
         console.log("New ice candidate")
@@ -57,6 +47,7 @@ function onFileInputChange() {
 
 // SendButton functionality
 function sendFile() {
+    status.textContent = "Connected"
     const fileReader = new FileReader();
     const chunkSize = 16000
     if (fileInput.files.length === 0) return
@@ -111,12 +102,12 @@ function hashCode(s) {
 function put_offer() {
     console.log("Putting offer...")
     let xhr = new XMLHttpRequest()
-    let roomId = hashCode(JSON.stringify(fileMeta))
-    let roomLink = document.location.origin + '/api/' + roomId
+    let room_id = hashCode(JSON.stringify(fileMeta))
+    let roomLink = document.location.origin + '/api/' + room_id
     xhr.open("PUT", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send(JSON.stringify(Object.assign({}, latestOffer.toJSON(), fileMeta)))
-    inviteLink.textContent = document.location.origin + '/r/' + roomId
+    inviteLink.textContent = room_id.toString()
     inviteLink.style.color = "black"
     get_answer()
 }
@@ -136,10 +127,9 @@ function get_answer() {
             // console.log("Response: " + xhr.response)
             let rsp = JSON.parse(JSON.parse(xhr.response))
             if (rsp.type === "answer") {
-                status.textContent = "Connecting..."
                 localConnection.setRemoteDescription(rsp)
                     .then(() => {
-                        status.textContent = 'Connected'
+                        status.textContent = "Connecting..."
                         return 0
                     })
                     .catch(() => status.textContent = 'Connection Error')
@@ -162,11 +152,6 @@ function closeConnection() {
         localConnection = null
     }
     fileInput.disabled = false
-}
-
-// Copy link button functionality
-copyLinkButton.onclick = () => {
-    navigator.clipboard.writeText(document.getElementById("invite-link").textContent).then()
 }
 
 window.onbeforeunload = closeConnection

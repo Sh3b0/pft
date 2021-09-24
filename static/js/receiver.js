@@ -14,12 +14,12 @@ window.onload = () => {
     remoteConnection = new RTCPeerConnection(conf)
     remoteConnection.onicecandidate = () => {
         console.log("New ice candidate")
-        JSON.stringify(remoteConnection.localDescription)
     }
     remoteConnection.ondatachannel = e => {
         receiveChannel = e.channel
         receiveChannel.binaryType = 'arraybuffer'
         receiveChannel.onopen = () => {
+            status.textContent = "Connected"
             progress.style.display = "flex"
         }
         receiveChannel.onmessage = e => {
@@ -50,7 +50,7 @@ window.onload = () => {
 function get_offer(room_id) {
     if (room_id === "") return
     console.log("Getting offer...")
-    status.textContent = "Connecting"
+    status.textContent = "Connecting..."
     let xhr = new XMLHttpRequest()
     let roomLink = document.location.origin + '/api/' + room_id
     xhr.open("GET", roomLink, true)
@@ -75,7 +75,7 @@ function get_offer(room_id) {
 
 function put_answer(room_id) {
     console.log("Putting answer...")
-    status.textContent = "Connecting"
+    status.textContent = "Connecting..."
     let xhr = new XMLHttpRequest()
     let roomLink = document.location.origin + '/api/' + room_id
     xhr.open("PUT", roomLink, true)
@@ -83,7 +83,6 @@ function put_answer(room_id) {
 
     remoteConnection.setRemoteDescription(offer)
         .then(() => {
-            status.textContent = "Connected"
             remoteConnection.createAnswer().then(a => remoteConnection.setLocalDescription(a))
                 .then(() => xhr.send(JSON.stringify(remoteConnection.localDescription)))
                 .catch(() => status.textContent = "Connection Error")

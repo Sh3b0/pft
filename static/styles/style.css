@@ -107,9 +107,9 @@ header {
     align-items: center;
     border: 1px solid #D8E6E8;
     padding: 14px 30px;
-    border-radius: 10px 0 0 10px;
+    border-radius: 10px 10px 10px 10px;
     color: #aec8cc;
-    width: 325px;
+    width: 400px;
 
 }
 .notify{
