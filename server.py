@@ -13,14 +13,14 @@ class API(Resource):
         """
         Receiver gets offer, Sender gets answer.
         """
-        with open(f'./r/{room_id}.json', 'r') as f:
+        with open(f'r/{room_id}.json', 'r') as f:
             return f.read()
 
     def put(self, room_id):
         """
         Sender puts offer, Receiver puts answer.
         """
-        with open(f'./r/{room_id}.json', 'w') as f:
+        with open(f'r/{room_id}.json', 'w') as f:
             f.write(json.dumps(request.json))
 
 

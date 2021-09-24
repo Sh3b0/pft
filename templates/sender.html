@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PFT Website</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <img class="logo" src="../static/icons/Logo.svg" alt="logo">
+        <nav>
+            <ul class="nav_links">
+                <li><a href="#"> <span style="color: #2AB7CA">Transfer files </span></a></li>
+                <li><a href={{ url_for('receive') }}>Receive files</a></li>
+                <li><a href="#">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main-header">
+
+        <div class="left-main">
+
+            <div class="main-text"> Transfer <span style="color:#2AB7CA; font-weight: 600;">your files</span>
+                fast and easily through a <span style="color:#2AB7CA; font-weight: 600;">Pipe Connection</span>
+            </div>
+
+            <div class="info">
+                <div class="info-icon"><img src="{{ url_for('static', filename='icons/information.svg') }}" alt=""></div>
+                <p>After a pipe connection is set, you don’t have to renew link/reload page again.</p>
+            </div>
+
+            <div class="link-create">
+                <div class="link-text">
+                    <p id="invite-link">Invitation link will show up here</p>
+                </div>
+                <button class="action-button" id="copy-link">Copy Link</button>
+            </div>
+
+            <div class="notify">
+                <div class="notify-icon"><img src="{{ url_for('static', filename='icons/success.svg') }}" alt=""></div>
+                <p id="status">Not connected</p>
+            </div>
+        </div>
+        <div class="right-main">
+            <div class="drag-area">
+                <div class="cloud-icon"><img src="{{ url_for('static', filename='icons/cloudupload.svg') }}" alt=""></div>
+                <div class="drag-header">Drag & Drop to Upload a File</div>
+                <span style="color: #2AB7CA; font-size: 20px; margin-bottom: 22px;">OR</span>
+                <label for="file-input" class="browse-file">Browse file</label>
+                <input id="file-input" type="file" hidden="hidden"/>
+            </div>
+            <div class="progress-text"><p> </p></div>
+            <div class="progress">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="how-to"><p>How to transfer a file ?</p></div>
+
+    <div class="transfer-steps">
+        <div class="steps">
+            <div class="img-steps"><img src="{{ url_for('static', filename='icons/link.svg') }}" alt=""></div>
+            <div class="title-steps">1. Generate link</div>
+            <div class="para-steps">
+                <p>Click the generate link button to get a person link to connect with your peer.</p>
+            </div>
+        </div>
+
+        <div class="steps">
+            <div class="img-steps"><img src="{{ url_for('static', filename='icons/copy-how.svg') }}" alt=""></div>
+            <div class="title-steps">2. Copy link</div>
+            <div class="para-steps">
+                <p>Copy the generated link and share it with a the person you want to share files with.</p>
+            </div>
+        </div>
+
+        <div class="steps">
+            <div class="img-steps"><img src="{{ url_for('static', filename='icons/wait.svg') }}" alt=""></div>
+            <div class="title-steps">3. Wait your peer</div>
+            <div class="para-steps">
+                <p>Wait for your fellow pipeline peer to join through the link shared.</p>
+            </div>
+        </div>
+
+        <div class="steps">
+            <div class="img-steps"><img src="{{ url_for('static', filename='icons/share-how.svg')}}" alt=""></div>
+            <div class="title-steps">4. Share Files</div>
+            <div class="para-steps">
+                <p>Start sharing files with your peer and enjoy the fastest file transfer.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="left-foot"><p>©2021 All Rights Reserved.</p></div>
+        <div class="right-foot">
+            <p>Terms Of Service</p>
+            <p>Privacy Policy</p>
+        </div>
+    </footer>
+</body>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="{{ url_for('static', filename='js/sender.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</html>

@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/yegor256/takes/blob/master/LICENSE.txt)
 
 # Pipe File Transfer (PFT)
-PFT is a Web Application for simultaneous upload/download of files between users. It uses WebRTC as the underlying protocol.  
+PFT is a Web Application for simultaneous upload/download of files between users. It uses [WebRTC](https://webrtc.org/) as the underlying protocol.  
 The project is made as a part of Software Systems Analysis and Design Course (S21) at Innopolis University.  
 
 # Table of Contents
@@ -15,6 +15,7 @@ The project is made as a part of Software Systems Analysis and Design Course (S2
 - [Features](https://github.com/Sh3B0/pft#Features)
 - [Screenshots](https://github.com/Sh3B0/pft#Screenshots)
 - [Frameworks and technology used](https://github.com/Sh3B0/pft#Frameworks-and-technology-used)
+- [Local testing](https://github.com/Sh3B0/pft#Local-testing)
 - [Contribution](https://github.com/Sh3B0/pft#Contribution)
 - [Credits](https://github.com/Sh3B0/pft#Credits)
 - [License](https://github.com/Sh3B0/pft#License)
@@ -37,7 +38,7 @@ Artifact document can be accessed from [here](https://docs.google.com/document/d
 
 ### 1. Sending files screen.
 The first page that a user sees is the page for sending files. A user will generate a link and send it to his/her peer. After they are connected, then they can share files simultaneously.
-<img src="Screenshots/Transfer_file.png" width="720" height="480" />
+<img src="Screenshots/Transfer%20file.png" width="720" height="480" />
 
 ### 2. Receiving files screen.<br />
 When a user wants to receive a file, they should be on the "Receive" page. After the link is generated and shared, the new peer who wants to connect pastes it in the designated input field to get connected. After the connection is successful, then they can share files simultaneously.
@@ -51,7 +52,12 @@ Feel free to check stalk them :)
 ## Frameworks and technology used
 - Flask for backend  
 - HTML, CSS, Vanilla JS for front-end and client-side  
-- WebRTC has to be supported by the user browser
+- [WebRTC](https://webrtc.org/) has to be supported by the user browser
+
+## Local testing
+
+1. Install requirements `pip install -r requirements.txt`
+2. run `python3 server.py`
 
 ## Contribution
 - Feel free to open a pull request, suggest a feature, or report a bug by creating an issue   
@@ -64,4 +70,3 @@ Feel free to check stalk them :)
 
 ## License
 The source code for the site is licensed under the MIT license, which you can find in the LICENSE file.   
-
