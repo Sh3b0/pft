@@ -51,9 +51,11 @@ Information about the team of developers behind this amazing tool is detailed he
 Feel free to check stalk them :)
 
 ## Frameworks and technology used
-- Flask for backend  
-- HTML, CSS, Vanilla JS for front-end and client-side  
-- [WebRTC](https://webrtc.org/) has to be supported by the user browser
+- Python flask for backend, REST API.  
+- Heroku for hosting.
+- Gunicorn WSGI server.
+- HTML, CSS, Vanilla JS for front-end and client-side code.
+- [WebRTC](https://webrtc.org/) has to be supported by the use browser
 
 ## Local testing
 
