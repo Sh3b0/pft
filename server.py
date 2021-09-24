@@ -60,8 +60,10 @@ def init_api():
     api.add_resource(API, '/api/<room_id>')
 
 
-if __name__ == '__main__':
+if __name__ == 'server' or __name__ == '__main__':
     init_rooms()
     init_scheduler()
     init_api()
+
+if __name__ == '__main__':
     application.run()
