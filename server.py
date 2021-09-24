@@ -5,7 +5,7 @@ import atexit
 import time
 import json
 import os
-import app
+from app import app as application
 
 
 class API(Resource):
@@ -56,7 +56,7 @@ def init_api():
     """
     Creates the API and add a route for it.
     """
-    api = Api(app.app)
+    api = Api(application)
     api.add_resource(API, '/api/<room_id>')
 
 
@@ -64,4 +64,4 @@ if __name__ == '__main__':
     init_rooms()
     init_scheduler()
     init_api()
-    app.run()
+    application.run()
