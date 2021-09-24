@@ -16,6 +16,7 @@ The project is made as a part of Software Systems Analysis and Design Course (S2
 - [Screenshots](https://github.com/Sh3B0/pft#Screenshots)
 - [Frameworks and technology used](https://github.com/Sh3B0/pft#Frameworks-and-technology-used)
 - [Local testing](https://github.com/Sh3B0/pft#Local-testing)
+- [Know issues](https://github.com/Sh3B0/pft#known-issues)
 - [Contribution](https://github.com/Sh3B0/pft#Contribution)
 - [Credits](https://github.com/Sh3B0/pft#Credits)
 - [License](https://github.com/Sh3B0/pft#License)
@@ -59,8 +60,15 @@ Feel free to check stalk them :)
 1. Install requirements `pip install -r requirements.txt`
 2. run `python3 server.py`
 
+## Known issues
+- `Unchecked runtime.lastError: The message port closed before a response was received.`
+  - Most probably this is because of a broswer extension intervening in connection establishment.
+
+- `ICE failed, add a TURN server and see about:webrtc for more details`
+  - Either you are behind a firewall or a symmetric NAT that won't allow WebRTC to work.
+
 ## Contribution
-- Feel free to open a pull request, suggest a feature, or report a bug by creating an issue   
+- Feel free to open a pull request, suggest a feature, or report a bug by creating an issue  
 
 ## Credits
 - Ahmed Nouralla
