@@ -1,37 +1,28 @@
+'use strict';
+
 const fileInput = document.getElementById('file-input')
-const inviteLink = document.getElementById('invite-link')
-const status = document.getElementById('status')
-const progress = document.getElementsByClassName('progress')[0]
-const progressFill = document.getElementsByClassName('progress-fill')[0]
-const progressText = document.getElementsByClassName('progress-text')[0]
-
 let localConnection, sendChannel, latestOffer, fileMeta
-
-// TODO: Use https with gunicorn to allow link copy
-// TODO: [Enhancement] resend ice candidates as they arrive to ensure connection stability.
-// TODO: [Optional] check the possibility of increasing speed without breaking the connection.
-// TODO: [Optional] add upload stats (elapsed time, MBs, upload rate) in sender.
-// TODO: [Optional] allow sending multiple files in the same connection
-// TODO: [Optional] check the possibility of pausing/continuing connection (detect and recover from packet loss)
-// TODO: [Optional] Add automated tests
 
 // Creating local connection
 window.onload = () => {
     const conf = {iceServers: [{urls: ['stun:stun.l.google.com:19302']}]}
-    localConnection = new RTCPeerConnection(conf)
+    try {
+        localConnection = new RTCPeerConnection(conf)
+    } catch (ReferenceError) {
+        alert("Your browser doesn't support WebRTC, please use a different one to be able to use the app.")
+        return
+    }
     localConnection.onicecandidate = () => {
-        console.log("New ice candidate")
         latestOffer = localConnection.localDescription
     }
     sendChannel = localConnection.createDataChannel("sendChannel")
     sendChannel.onopen = sendFile
-    sendChannel.onmessage = e => console.log("Message from peer: " + e.data)
     localConnection.createOffer().then(o => localConnection.setLocalDescription(o))
 }
 
 // Toggle send/invite button
 function onFileInputChange() {
-    console.log('File input changed')
+    if (!sendChannel) return
     fileMeta = {
         name: fileInput.files[0].name,
         size: fileInput.files[0].size,
@@ -47,7 +38,9 @@ function onFileInputChange() {
 
 // SendButton functionality
 function sendFile() {
-    status.textContent = "Connected"
+    status.dispatchEvent(
+        new CustomEvent('statusChange', {detail: "Connected"})
+    )
     const fileReader = new FileReader();
     const chunkSize = 16000
     if (fileInput.files.length === 0) return
@@ -76,7 +69,9 @@ function sendFile() {
         progressText.innerText = "Sending " + (so_far / file.size * 100).toFixed(2).toString() + "% ..."
         progressFill.style.width = (so_far / file.size * 100).toString() + "%"
         if (so_far === file.size) {
-            status.textContent = "Upload Complete!"
+            status.dispatchEvent(
+                new CustomEvent('statusChange', {detail: "Upload Complete!"})
+            )
         }
         if (so_far < file.size) {
             readChunk(so_far)
@@ -84,11 +79,9 @@ function sendFile() {
     }
 }
 
-
 function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
-
 
 // Gets hash code from a string
 function hashCode(s) {
@@ -109,40 +102,47 @@ function put_offer() {
     xhr.send(JSON.stringify(Object.assign({}, latestOffer.toJSON(), fileMeta)))
     inviteLink.textContent = room_id.toString()
     inviteLink.style.color = "black"
-    get_answer()
+    get_answer(0)
 }
 
 // Gets SDP answer from API
-function get_answer() {
-    status.textContent = "Waiting for receiver to join"
+function get_answer(count) {
+    status.dispatchEvent(
+        new CustomEvent('statusChange', {detail: "Waiting for receiver to join"})
+    )
     console.log("Getting answer...")
     let xhr = new XMLHttpRequest()
-    let roomId = hashCode(JSON.stringify(fileMeta))
-    let roomLink = document.location.origin + '/api/' + roomId
-    xhr.open("GET", roomLink, true)
+    let room_id = hashCode(JSON.stringify(fileMeta))
+    let room_link = document.location.origin + '/api/' + room_id
+    xhr.open("GET", room_link, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send()
     xhr.onreadystatechange = e => {
-        if (e.target.readyState === 4) {  // DONE
-            // console.log("Response: " + xhr.response)
+        if (e.target.readyState === 4) {
+            if (xhr.status !== 200) {
+                status.dispatchEvent(
+                    new CustomEvent('statusChange', {detail: "Connection Error"})
+                )
+                return
+            }
             let rsp = JSON.parse(JSON.parse(xhr.response))
-            if (rsp.type === "answer") {
+            if (rsp.type === "answer" && localConnection.iceGatheringState === 'complete') {
+                status.dispatchEvent(
+                    new CustomEvent('statusChange', {detail: "Connecting..."})
+                )
                 localConnection.setRemoteDescription(rsp)
-                    .then(() => {
-                        status.textContent = "Connecting..."
-                        return 0
-                    })
-                    .catch(() => status.textContent = 'Connection Error')
+                    .catch(() => status.dispatchEvent(
+                        new CustomEvent('statusChange', {detail: "Connection Error"})
+                    ))
             } else if (rsp.type === 'offer') {
-                setTimeout(get_answer, 1000)
+                setTimeout(get_answer.bind(null, count + 1), 1000)
             }
         }
     }
 }
 
-// Closes Data Channel
+// Closes Data Channel and local connection
 function closeConnection() {
-    console.log('Closing Connection...')
     if (sendChannel) {
         sendChannel.close()
         sendChannel = null

@@ -30,12 +30,6 @@
                 fast and easily through a <span style="color:#2AB7CA; font-weight: 600;">Pipe Connection</span>
             </div>
 
-
-            <div class="info">
-                <div class="info-icon"><img src="{{ url_for('static', filename='icons/information.svg') }}" alt=""></div>
-                <p>After a pipe connection is set, you don’t have to renew link/reload page again.</p>
-            </div>
-
             <div class="link-create">
                 <div class="link-receive">
                     <label>
@@ -46,8 +40,8 @@
             </div>
 
             <div class="notify">
-                <div class="notify-icon"><img src="{{ url_for('static', filename='icons/success.svg') }}" alt=""></div>
-                <p id="status"> Not connected </p>
+                <div class="notify-icon"><img src="{{ url_for('static', filename='icons/cross.svg') }}" alt=""></div>
+                <p> Not connected </p>
             </div>
 
         </div>
@@ -110,6 +104,11 @@
     </footer>
 </body>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-<script src="{{ url_for('static', filename='js/receiver.js') }}"></script>
+<script type="application/javascript">
+    const cross_icon = '{{ url_for('static', filename='icons/cross.svg') }}';
+    const info_icon = '{{ url_for('static', filename='icons/information.svg') }}' ;
+    const success_icon = '{{ url_for('static', filename='icons/success.svg') }}' ;
+</script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/receiver.js') }}"></script>
 </html>

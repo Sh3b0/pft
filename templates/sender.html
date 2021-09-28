@@ -30,11 +30,6 @@
                 fast and easily through a <span style="color:#2AB7CA; font-weight: 600;">Pipe Connection</span>
             </div>
 
-            <div class="info">
-                <div class="info-icon"><img src="{{ url_for('static', filename='icons/information.svg') }}" alt=""></div>
-                <p>After a pipe connection is set, you don’t have to renew link/reload page again.</p>
-            </div>
-
             <div class="link-create">
                 <div class="link-text">
                     <p id="invite-link">Room id will show up here</p>
@@ -42,8 +37,8 @@
             </div>
 
             <div class="notify">
-                <div class="notify-icon"><img src="{{ url_for('static', filename='icons/success.svg') }}" alt=""></div>
-                <p id="status">Not connected</p>
+                <div class="notify-icon"><img src="{{ url_for('static', filename='icons/cross.svg') }}" alt=""></div>
+                <p>Not connected</p>
             </div>
         </div>
         <div class="right-main">
@@ -54,7 +49,7 @@
                 <label for="file-input" class="browse-file">Browse file</label>
                 <input id="file-input" type="file" hidden="hidden"/>
             </div>
-            <div class="progress-text"><p> </p></div>
+            <div class="progress-text"><p></p></div>
             <div class="progress">
                 <div class="progress-fill"></div>
             </div>
@@ -89,7 +84,7 @@
         </div>
 
         <div class="steps">
-            <div class="img-steps"><img src="{{ url_for('static', filename='icons/share-how.svg')}}" alt=""></div>
+            <div class="img-steps"><img src="{{ url_for('static', filename='icons/share-how.svg') }}" alt=""></div>
             <div class="title-steps">4. Share Files</div>
             <div class="para-steps">
                 <p>Start sharing files with your peer and enjoy the fastest file transfer.</p>
@@ -107,6 +102,11 @@
     </footer>
 </body>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-<script src="{{ url_for('static', filename='js/sender.js') }}"></script>
+<script type="application/javascript">
+    const cross_icon = '{{ url_for('static', filename='icons/cross.svg') }}';
+    const info_icon = '{{ url_for('static', filename='icons/information.svg') }}' ;
+    const success_icon = '{{ url_for('static', filename='icons/success.svg') }}' ;
+</script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sender.js') }}"></script>
 </html>
