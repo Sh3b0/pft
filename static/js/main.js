@@ -5,10 +5,10 @@ const progress = document.getElementsByClassName('progress')[0]
 const progressFill = document.getElementsByClassName('progress-fill')[0]
 const progressText = document.getElementsByClassName('progress-text')[0]
 const inviteLink = document.getElementById('invite-link')
+const conf = {iceServers: [{urls: 'stun:stun.l.google.com:19302'}]}
 
 // Changing status
 status.addEventListener('statusChange', e => {
-    console.log(e.detail)
     status.children[1].textContent = e.detail
     if (e.detail === "Not connected" || e.detail.includes('Error')) {
         status.firstElementChild.firstChild.src = cross_icon

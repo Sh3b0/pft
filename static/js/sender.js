@@ -5,7 +5,6 @@ let localConnection, sendChannel, latestOffer, fileMeta
 
 // Creating local connection
 window.onload = () => {
-    const conf = {iceServers: [{urls: ['stun:stun.l.google.com:19302']}]}
     try {
         localConnection = new RTCPeerConnection(conf)
     } catch (ReferenceError) {
@@ -64,7 +63,14 @@ function sendFile() {
 
     async function sendChunk() {
         await timeout(0.1)
-        sendChannel.send(fileReader.result)
+        try {
+            sendChannel.send(fileReader.result)
+        } catch (DOMException) {
+            status.dispatchEvent(
+                new CustomEvent('statusChange', {detail: "Connection Error"})
+            )
+            return
+        }
         so_far += fileReader.result.byteLength
         progressText.innerText = "Sending " + (so_far / file.size * 100).toFixed(2).toString() + "% ..."
         progressFill.style.width = (so_far / file.size * 100).toString() + "%"
@@ -102,15 +108,19 @@ function put_offer() {
     xhr.send(JSON.stringify(Object.assign({}, latestOffer.toJSON(), fileMeta)))
     inviteLink.textContent = room_id.toString()
     inviteLink.style.color = "black"
+    status.dispatchEvent(
+        new CustomEvent('statusChange', {detail: "Waiting for receiver to join"})
+    )
+    console.log("Waiting for answer...")
     get_answer(0)
 }
 
 // Gets SDP answer from API
 function get_answer(count) {
-    status.dispatchEvent(
-        new CustomEvent('statusChange', {detail: "Waiting for receiver to join"})
-    )
-    console.log("Getting answer...")
+    if (count >= 1000) {
+        alert("Room timed out (receiver didn't join). Please try again.")
+        location.reload()
+    }
     let xhr = new XMLHttpRequest()
     let room_id = hashCode(JSON.stringify(fileMeta))
     let room_link = document.location.origin + '/api/' + room_id
@@ -135,7 +145,7 @@ function get_answer(count) {
                         new CustomEvent('statusChange', {detail: "Connection Error"})
                     ))
             } else if (rsp.type === 'offer') {
-                setTimeout(get_answer.bind(null, count + 1), 1000)
+                setTimeout(get_answer.bind(null, count + 1), 3000)
             }
         }
     }

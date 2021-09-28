@@ -5,7 +5,6 @@ let remoteConnection, receiverBuffer = [], receivedSize = 0, offer, fileMeta, re
 
 // Connection establishment
 window.onload = () => {
-    const conf = {iceServers: [{urls: 'stun:stun.l.google.com:19302'}]}
     try {
         remoteConnection = new RTCPeerConnection(conf)
     } catch (ReferenceError) {
@@ -43,7 +42,7 @@ window.onload = () => {
             }
         }
         remoteConnection.channel = receiveChannel
-        remoteConnection.addEventListener('datachannel',)
+        remoteConnection.addEventListener('datachannel', )
     }
     get_offer(document.location.pathname.split('/')[2])
 }
@@ -62,6 +61,12 @@ function get_offer(room_id) {
     xhr.send()
     xhr.onreadystatechange = e => {
         if (e.target.readyState === 4) {
+            if (xhr.status !== 200) {
+                status.dispatchEvent(
+                    new CustomEvent('statusChange', {detail: "Connection Error"})
+                )
+                return
+            }
             let rsp = JSON.parse(JSON.parse(xhr.response))
             offer = {
                 type: rsp.type,
