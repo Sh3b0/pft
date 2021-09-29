@@ -41,7 +41,7 @@ function sendFile() {
         new CustomEvent('statusChange', {detail: "Connected"})
     )
     const fileReader = new FileReader();
-    const chunkSize = 16000
+    const chunkSize = 16000 // 262144
     if (fileInput.files.length === 0) return
     const file = fileInput.files[0]
     let so_far = 0
@@ -51,6 +51,9 @@ function sendFile() {
         const slice = file.slice(o, o + chunkSize)
         fileReader.readAsArrayBuffer(slice)
     }
+
+    // TODO: send file meta first
+    sendChannel.send(JSON.stringify(fileMeta))
     readChunk(0)  // Start sending file
     progress.style.display = "flex"
     fileReader.onerror = e => {
@@ -62,7 +65,7 @@ function sendFile() {
     fileReader.onload = sendChunk
 
     async function sendChunk() {
-        await timeout(0.1)
+        await timeout(0.01)
         try {
             sendChannel.send(fileReader.result)
         } catch (DOMException) {
@@ -105,7 +108,7 @@ function put_offer() {
     let roomLink = document.location.origin + '/api/' + room_id
     xhr.open("PUT", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
-    xhr.send(JSON.stringify(Object.assign({}, latestOffer.toJSON(), fileMeta)))
+    xhr.send(JSON.stringify(latestOffer.toJSON()))
     inviteLink.textContent = room_id.toString()
     inviteLink.style.color = "black"
     status.dispatchEvent(

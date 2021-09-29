@@ -21,6 +21,13 @@ window.onload = () => {
             progress.style.display = "flex"
         }
         receiveChannel.onmessage = e => {
+            if (typeof(e.data) === "string") {  // Sending another file
+                console.log(e.data)
+                console.log(JSON.parse(e.data))
+                fileMeta = JSON.parse(e.data)
+                return
+            }
+            connectButton.disabled = true
             receiverBuffer.push(e.data)
             receivedSize += e.data.byteLength
             progressText.innerText = "Downloading " +
@@ -42,7 +49,6 @@ window.onload = () => {
             }
         }
         remoteConnection.channel = receiveChannel
-        remoteConnection.addEventListener('datachannel', )
     }
     get_offer(document.location.pathname.split('/')[2])
 }
@@ -71,11 +77,6 @@ function get_offer(room_id) {
             offer = {
                 type: rsp.type,
                 sdp: rsp.sdp
-            }
-            fileMeta = {
-                name: rsp["name"],
-                size: rsp["size"],
-                last_modified: rsp["last_modified"]
             }
             put_answer(room_id)
         }
@@ -118,7 +119,6 @@ function closeConnection() {
 }
 
 connectButton.onclick = () => {
-    //if (!receiveChannel) return
     if (inviteLink.value === '') {
         alert("Please enter a room id/link")
     }
