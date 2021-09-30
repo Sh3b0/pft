@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+
+
+/* ______________ Common CSS __________________*/
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: #F7F8FC;
+    font-family: 'Lato', sans-serif;
+}
+
+li, a {
+    font-weight: 500;
+    font-size: 16px;
+    color: #0F1020;
+    text-decoration: none;
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 20px 10px;
+    border-bottom: 1px solid #D8E6E8;
+}
+
+.logo {
+    cursor: pointer;
+    margin-left: 30px;
+}
+
+.nav_links {
+    list-style: none;
+}
+
+.nav_links li {
+    display: inline-block;
+    padding: 0 20px;
+}
+
+.nav_links li a:hover {
+    color: #2AB7CA;
+}
+
+/* ________________ Transfer Page ___________________*/
+
+.main-header {
+    display: flex;
+    width: 66%;
+    margin-top: 40px;
+    margin-left: 18%;
+    /* gap: 180px; */
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.main-text {
+    font-size: 40px;
+    font-weight: 400;
+    width: 400px;
+    height: 162px;
+    line-height: 60px;
+    color: #0F1020;
+    padding-bottom: 240px;
+}
+
+.link-create {
+    display: flex;
+    align-items: center;
+}
+
+.action-button {
+    /* Button */
+    font-size: 16px;
+    font-weight: 500;
+    color: #F7F8FC;
+    border: none;
+    outline: none;
+    background-color: #2AB7CA;
+    padding: 15px 30px;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+}
+
+.action-button:hover {
+    background-color: #0F1020;
+}
+
+.link-text {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #D8E6E8;
+    padding: 14px 30px;
+    border-radius: 10px 10px 10px 10px;
+    color: #aec8cc;
+    width: 400px;
+
+}
+
+.notify {
+    font-size: 13px;
+    color: #F44336;
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.notify-icon {
+    padding-right: 8px;
+    padding-top: 2px;
+}
+
+/* Drag- area css */
+
+.drag-area {
+    margin-top: 20px;
+    width: 380px;
+    height: 300px;
+    border: 2px dashed #2AB7CA;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.drag-header {
+    font-size: 20px;
+    color: #2AB7CA;
+    margin: 22px 0 14px 0;
+}
+
+
+.browse-file {
+    /* Button */
+    font-size: 16px;
+    font-weight: 500;
+    color: #F7F8FC;
+    border: none;
+    outline: none;
+    background-color: #2AB7CA;
+    padding: 15px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.browse-file:hover {
+    background-color: #0F1020;
+}
+
+.progress-text {
+    margin-top: 13px;
+    display: flex;
+    width: 380px;
+    gap: 3px;
+    color: #5C6B73;
+    font-size: 14px;
+    justify-content: space-around;
+}
+
+.progress {
+    display: none;
+    margin-top: 8px;
+    width: 380px;
+    height: 13px;
+    background-color: #F7F8FC;
+    border: 1px solid #2AB7CA;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0;
+    height: 100%;
+    background: #2AB7CA;
+}
+
+/* ________________________ */
+.how-to {
+    margin-left: 18%;
+    padding-top: 70px;
+    font-size: 30px;
+    font-weight: 530;
+}
+
+.transfer-steps {
+    display: flex;
+    width: 66%;
+    margin-top: 40px;
+    margin-left: 18%;
+    /* gap: 180px; */
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-bottom: 40px;
+}
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title-steps {
+    color: #2AB7CA;
+    font-size: 18px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.para-steps {
+    color: #5C6B73;
+    width: 200px;
+    text-align: center;
+}
+
+footer {
+    font-size: 14px;
+    width: 66%;
+    color: #5C6B73;
+    display: flex;
+    margin-left: 18%;
+    bottom: 15px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    border-top: 1px solid #D8E6E8;
+}
+
+.right-foot {
+    display: flex;
+    width: 250px;
+    justify-content: space-between;
+    text-decoration: underline;
+    cursor: pointer;
+    flex-wrap: wrap;
+}
+
+
+/* ___________ Receive Files page __________ */
+
+.right-illustration {
+    margin-top: 20px;
+    width: 440px;
+    height: 300px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.illustration {
+    height: auto;
+    width: auto;
+}
+
+
+input {
+    border: 1px solid #D8E6E8;
+    border-radius: 10px 0 0 10px;
+    font-size: 16px;
+    padding: 14px 30px;
+    width: 370px;
+}
+
+input:hover {
+    border: 1px solid #2AB7CA;
+}
+
+input:focus {
+    border: 1px solid #2AB7CA;
+    outline: #2AB7CA;
+    color: #0F1020
+}
+
+::placeholder {
+    color: #aec8cc;
+}
