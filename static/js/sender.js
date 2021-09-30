@@ -91,7 +91,7 @@ async function sendFile() {
                     return
                 }
                 so_far += fileReader.result.byteLength
-                progressText.innerText = "Sending " + (so_far / file.size * 100).toFixed(2).toString() + "% ..."
+                progressText.innerText = "Sending " + file.name + " " + (so_far / file.size * 100).toFixed(2).toString() + "% ..."
                 progressFill.style.width = (so_far / file.size * 100).toString() + "%"
                 if (so_far === file.size) {
                     status.dispatchEvent(

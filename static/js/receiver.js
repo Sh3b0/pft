@@ -32,7 +32,7 @@ window.onload = () => {
             connectButton.disabled = true
             receiverBuffer.push(e.data)
             receivedSize += e.data.byteLength
-            progressText.innerText = "Downloading " +
+            progressText.innerText = "Downloading " + fileMeta.name + " " +
                 (receivedSize / fileMeta.size * 100).toFixed(2).toString() + "% ..."
             progressFill.style.width = (receivedSize / fileMeta.size * 100).toString() + "%"
             if (receivedSize === fileMeta.size) {
