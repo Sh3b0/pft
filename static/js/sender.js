@@ -2,6 +2,7 @@
 
 const fileInput = document.getElementById('file-input')
 let localConnection, sendChannel, latestOffer, fileMeta, total_size = 0
+let room_id
 
 // Creating local connection
 window.onload = () => {
@@ -32,11 +33,7 @@ function onFileInputChange() {
 
     }
     else {
-        fileMeta = {
-                name: fileInput.files[0].name,
-                size: fileInput.files[0].size,
-                last_modified: fileInput.files[0].lastModified,
-        }
+
         put_offer()
     }
 }
@@ -54,7 +51,7 @@ async function sendFile() {
         let file = fileInput.files[i]
         console.log("sending file#:", i+1, "name: ", file.name)
         const fileReader = new FileReader();
-        const chunkSize = 16000 // 262144
+        const chunkSize = 256000// 262144
         let so_far = 0
         //send file meta first
         sendChannel.send(JSON.stringify(fileMeta))
@@ -114,23 +111,16 @@ function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-// Gets hash code from a string
-function hashCode(s) {
-    let h = 0;
-    for (let i = 0; i < s.length; i++)
-        h = Math.imul(31, h) + s.charCodeAt(i) | 0;
-    return Math.abs(h);
-}
-
 // Puts SDP offer to API
 function put_offer() {
     console.log("Putting offer...")
     let xhr = new XMLHttpRequest()
-    let room_id = hashCode(JSON.stringify(fileMeta))
+    room_id = Math.floor(Math.random() * ((Math.pow(10,11)-1) - Math.pow(10,10)) + Math.pow(10,10));
     let roomLink = document.location.origin + '/api/' + room_id
     xhr.open("PUT", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send(JSON.stringify(latestOffer.toJSON()))
+
     inviteLink.textContent = room_id.toString()
     inviteLink.style.color = "black"
     status.dispatchEvent(
@@ -147,7 +137,7 @@ function get_answer(count) {
         location.reload()
     }
     let xhr = new XMLHttpRequest()
-    let room_id = hashCode(JSON.stringify(fileMeta))
+    console.log(room_id)
     let room_link = document.location.origin + '/api/' + room_id
     xhr.open("GET", room_link, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
