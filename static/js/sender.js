@@ -41,6 +41,7 @@ function onFileInputChange() {
 
 // SendButton functionality
 async function sendFile() {
+    fileInput.disabled = true
     for(let i = 0;i < fileInput.files.length;i++) {
         let sent = false
         fileMeta = {
@@ -105,6 +106,7 @@ async function sendFile() {
             await timeout(1000)
         }
     }
+    fileInput.disabled = false
 }
 
 function timeout(ms) {
@@ -137,7 +139,6 @@ function get_answer(count) {
         location.reload()
     }
     let xhr = new XMLHttpRequest()
-    console.log(room_id)
     let room_link = document.location.origin + '/api/' + room_id
     xhr.open("GET", room_link, true)
     xhr.setRequestHeader('Content-Type', 'application/json')

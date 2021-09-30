@@ -22,16 +22,18 @@ window.onload = () => {
         }
         receiveChannel.onmessage = e => {
             if (typeof(e.data) === "string") {  // Sending another file
+
                 console.log(e.data)
-                console.log(JSON.parse(e.data))
+
                 fileMeta = JSON.parse(e.data)
                 return
             }
             let test = 0
-            console.log("now: ", receivedSize, fileMeta.size)
+
             connectButton.disabled = true
             receiverBuffer.push(e.data)
             receivedSize += e.data.byteLength
+            console.log("received", receivedSize,"out of", fileMeta.size)
             progressText.innerText = "Downloading " + fileMeta.name + " " +
                 (receivedSize / fileMeta.size * 100).toFixed(2).toString() + "% ..."
             progressFill.style.width = (receivedSize / fileMeta.size * 100).toString() + "%"
