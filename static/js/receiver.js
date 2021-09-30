@@ -27,6 +27,7 @@ window.onload = () => {
                 fileMeta = JSON.parse(e.data)
                 return
             }
+            let test = 0
             console.log("now: ", receivedSize, fileMeta.size)
             connectButton.disabled = true
             receiverBuffer.push(e.data)
