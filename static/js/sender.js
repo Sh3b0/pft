@@ -1,7 +1,7 @@
 'use strict';
 
 const fileInput = document.getElementById('file-input')
-let localConnection, sendChannel, latestOffer, fileMeta, total_size = 0
+let localConnection, sendChannel, latestOffer, fileMeta
 let room_id
 
 // Creating local connection
@@ -26,23 +26,19 @@ function onFileInputChange() {
 
     if (sendChannel && sendChannel.readyState === 'open') {
         if (fileInput.files.length === 0) return
-        for(let i=0;i<fileInput.files.length;i++){
-            total_size = total_size + fileInput.files[i].size
-        }
+
         sendFile()
 
-    }
-    else {
+    } else {
 
         put_offer()
     }
 }
 
-
 // SendButton functionality
-async function sendFile() {
+function sendFile() {
     fileInput.disabled = true
-    for(let i = 0;i < fileInput.files.length;i++) {
+    for (let i = 0; i < fileInput.files.length; i++) {
         let sent = false
         fileMeta = {
             name: fileInput.files[i].name,
@@ -50,7 +46,7 @@ async function sendFile() {
             last_modified: fileInput.files[i].lastModified,
         }
         let file = fileInput.files[i]
-        console.log("sending file#:", i+1, "name: ", file.name)
+        console.log("sending file#:", i + 1, "name: ", file.name)
         const fileReader = new FileReader();
         const chunkSize = 256000// 262144
         let so_far = 0
@@ -60,14 +56,14 @@ async function sendFile() {
             const slice = file.slice(o, o + chunkSize)
             fileReader.readAsArrayBuffer(slice)
         }
-        // Reads chunkSize bytes of the file, starting from byte o
+
         readChunk(0)
-        while(!sent) {
-            // Start sending file
+        // Start sending file
+        while (!sent) {
+
             status.dispatchEvent(
                 new CustomEvent('statusChange', {detail: "Connected"})
             )
-
 
             progress.style.display = "flex"
             fileReader.onerror = e => {
@@ -79,7 +75,7 @@ async function sendFile() {
             fileReader.onload = sendChunk
 
             async function sendChunk() {
-                await timeout(100)
+                await timeout(0.1)
                 try {
                     sendChannel.send(fileReader.result)
                 } catch (DOMException) {
@@ -94,16 +90,15 @@ async function sendFile() {
                 if (so_far === file.size) {
                     status.dispatchEvent(
                         new CustomEvent('statusChange', {detail: "Upload Complete!"})
-
                     )
                     sent = true
                 }
                 if (so_far < file.size) {
+                    // Reads chunkSize bytes of the file
                     readChunk(so_far)
                 }
             }
 
-            await timeout(1000)
         }
     }
     fileInput.disabled = false
@@ -117,7 +112,7 @@ function timeout(ms) {
 function put_offer() {
     console.log("Putting offer...")
     let xhr = new XMLHttpRequest()
-    room_id = Math.floor(Math.random() * ((Math.pow(10,11)-1) - Math.pow(10,10)) + Math.pow(10,10));
+    room_id = Math.floor(Math.random() * (1e10-1) + 1e9)
     let roomLink = document.location.origin + '/api/' + room_id
     xhr.open("PUT", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
