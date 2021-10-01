@@ -48,7 +48,7 @@ function sendFile() {
         let file = fileInput.files[i]
         console.log("sending file#:", i + 1, "name: ", file.name)
         const fileReader = new FileReader();
-        const chunkSize = 256000// 262144
+        const chunkSize = 16000// 262144
         let so_far = 0
         //send file meta first
         sendChannel.send(JSON.stringify(fileMeta))
