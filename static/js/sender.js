@@ -36,7 +36,7 @@ function onFileInputChange() {
 }
 
 // SendButton functionality
-function sendFile() {
+async function sendFile() {
     fileInput.disabled = true
     for (let i = 0; i < fileInput.files.length; i++) {
         let sent = false
@@ -99,6 +99,7 @@ function sendFile() {
                 }
             }
 
+            await timeout(0.1)
         }
     }
     fileInput.disabled = false
@@ -112,7 +113,7 @@ function timeout(ms) {
 function put_offer() {
     console.log("Putting offer...")
     let xhr = new XMLHttpRequest()
-    room_id = Math.floor(Math.random() * (1e10-1) + 1e9)
+    room_id = Math.floor(Math.random() * (1e10 - 1) + 1e9)
     let roomLink = document.location.origin + '/api/' + room_id
     xhr.open("PUT", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
