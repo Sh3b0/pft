@@ -72,7 +72,7 @@ Artifact document can be accessed from [here](https://docs.google.com/document/d
 
 
 ## Contribution
-- Feel free to open a pull request, suggest a feature, or report a bug by creating an issue  
+Feel free to open a pull request, suggest a feature, or report a bug by creating an issue  
 
 ## Acknowledgment
 The project is made as a part of Software Systems Analysis and Design Course (S21) at Innopolis University.  
