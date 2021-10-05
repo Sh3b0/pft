@@ -1,133 +1,116 @@
 'use strict';
 
 const fileInput = document.getElementById('file-input')
-let localConnection, sendChannel, latestOffer, fileMeta
+let localConnection, sendChannel, latestOffer, fileMeta, chunkSize
 
 // Creating local connection
 window.onload = () => {
-    try {
-        localConnection = new RTCPeerConnection(conf)
-    } catch (ReferenceError) {
-        alert("Your browser doesn't support WebRTC, please use a different one to be able to use the app.")
-        return
-    }
-    localConnection.onicecandidate = () => {
+    localConnection = new RTCPeerConnection(conf)
+    localConnection.onicecandidate = e => {
         latestOffer = localConnection.localDescription
+        if (sendChannel.readyState === 'open')
+            sendChannel.send(JSON.stringify({ice: e.candidate}))
     }
     sendChannel = localConnection.createDataChannel("sendChannel")
-    sendChannel.onopen = sendFile
+    sendChannel.onopen = () => {
+        status.dispatchEvent(
+            new CustomEvent('statusChange', {detail: "Connected"})
+        )
+        if (fileInput.files.length !== 0) {
+            progress.style.display = "flex"
+            sendFiles().then()
+        }
+    }
     localConnection.createOffer().then(o => localConnection.setLocalDescription(o))
 }
 
-// Toggle send/invite button
+function awaitACK(){
+    return new Promise((resolve, reject) => {
+        sendChannel.onmessage = e => {
+            if(e.data === 'ACK') resolve()
+            else reject()
+        }
+    })
+}
+
+// Create room or send file
 function onFileInputChange() {
-    if (!sendChannel) return
-    fileMeta = {
-        name: fileInput.files[0].name,
-        size: fileInput.files[0].size,
-        last_modified: fileInput.files[0].lastModified,
-    }
-    if (sendChannel && sendChannel.readyState === 'open') {
-        sendFile()
+    if (sendChannel && sendChannel.readyState === 'open' && fileInput.files.length !== 0) {
+        status.dispatchEvent(
+            new CustomEvent('statusChange', {detail: "Connected"})
+        )
+        progress.style.display = "flex"
+        sendFiles().then()
     } else {
-        put_offer()
+        putOffer()
     }
 }
 
+// Reads one chunk of the file
+function readChunkAsync(chunk) {
+    return new Promise((resolve, reject) => {
+        let reader = new FileReader()
+        reader.onload = () => {
+            resolve(reader.result)
+        }
+        reader.onerror = reject
+        reader.readAsArrayBuffer(chunk)
+    })
+}
 
-// SendButton functionality
-function sendFile() {
+async function sendFiles() {
+    fileInput.disabled = true
+    for (let i = 0; i < fileInput.files.length; i++) {
+        let file = fileInput.files[i]
+        fileMeta = {
+            name: file.name,
+            size: file.size,
+        }
+        sendChannel.send(JSON.stringify(fileMeta))
+        for (let bytesSent = 0; bytesSent <= file.size; bytesSent += chunkSize) {
+            let chunk = await readChunkAsync(file.slice(bytesSent, bytesSent + chunkSize))
+            sendChannel.send(chunk)
+            progressText.innerText = "Sending " + file.name + " " +
+                (bytesSent / file.size).toFixed(2).toString() + "% ..."
+            progressFill.style.width = (bytesSent / file.size).toString() + "%"
+            await awaitACK()
+        }
+    }
+    progress.style.display = "none"
     status.dispatchEvent(
-        new CustomEvent('statusChange', {detail: "Connected"})
+        new CustomEvent('statusChange', {detail: "Upload Complete!"})
     )
-    const fileReader = new FileReader();
-    const chunkSize = 16000 // 262144
-    if (fileInput.files.length === 0) return
-    const file = fileInput.files[0]
-    let so_far = 0
-
-    // Reads chunkSize bytes of the file, starting from byte o
-    const readChunk = o => {
-        const slice = file.slice(o, o + chunkSize)
-        fileReader.readAsArrayBuffer(slice)
-    }
-
-    // TODO: send file meta first
-    sendChannel.send(JSON.stringify(fileMeta))
-    readChunk(0)  // Start sending file
-    progress.style.display = "flex"
-    fileReader.onerror = e => {
-        console.error('Error reading file: ', e)
-        closeConnection()
-    }
-
-    // On reading a part of the file, we send that part
-    fileReader.onload = sendChunk
-
-    async function sendChunk() {
-        await timeout(0.01)
-        try {
-            sendChannel.send(fileReader.result)
-        } catch (DOMException) {
-            status.dispatchEvent(
-                new CustomEvent('statusChange', {detail: "Connection Error"})
-            )
-            return
-        }
-        so_far += fileReader.result.byteLength
-        progressText.innerText = "Sending " + (so_far / file.size * 100).toFixed(2).toString() + "% ..."
-        progressFill.style.width = (so_far / file.size * 100).toString() + "%"
-        if (so_far === file.size) {
-            status.dispatchEvent(
-                new CustomEvent('statusChange', {detail: "Upload Complete!"})
-            )
-        }
-        if (so_far < file.size) {
-            readChunk(so_far)
-        }
-    }
-}
-
-function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-}
-
-// Gets hash code from a string
-function hashCode(s) {
-    let h = 0;
-    for (let i = 0; i < s.length; i++)
-        h = Math.imul(31, h) + s.charCodeAt(i) | 0;
-    return Math.abs(h);
+    fileInput.disabled = false
 }
 
 // Puts SDP offer to API
-function put_offer() {
+function putOffer() {
     console.log("Putting offer...")
+    let roomId = Math.floor(Math.random() * 9e9 + 1e9)
+    console.log(roomId)
+    let roomLink = document.location.origin + '/api/' + roomId
     let xhr = new XMLHttpRequest()
-    let room_id = hashCode(JSON.stringify(fileMeta))
-    let roomLink = document.location.origin + '/api/' + room_id
     xhr.open("PUT", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send(JSON.stringify(latestOffer.toJSON()))
-    inviteLink.textContent = room_id.toString()
+    inviteLink.textContent = roomId.toString()
     inviteLink.style.color = "black"
     status.dispatchEvent(
         new CustomEvent('statusChange', {detail: "Waiting for receiver to join"})
     )
     console.log("Waiting for answer...")
-    get_answer(0)
+    getAnswer(0, roomId)
 }
 
 // Gets SDP answer from API
-function get_answer(count) {
+function getAnswer(count, roomId) {
     if (count >= 1000) {
         alert("Room timed out (receiver didn't join). Please try again.")
         location.reload()
     }
     let xhr = new XMLHttpRequest()
-    let room_id = hashCode(JSON.stringify(fileMeta))
-    let room_link = document.location.origin + '/api/' + room_id
-    xhr.open("GET", room_link, true)
+    let roomLink = document.location.origin + '/api/' + roomId
+    xhr.open("GET", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send()
     xhr.onreadystatechange = e => {
@@ -147,8 +130,14 @@ function get_answer(count) {
                     .catch(() => status.dispatchEvent(
                         new CustomEvent('statusChange', {detail: "Connection Error"})
                     ))
+                chunkSize = 16384
+                const match = rsp.sdp.match(/a=max-message-size:\s*(\d+)/)
+                if (match !== null && match.length >= 2) {
+                    chunkSize = Math.max(chunkSize, parseInt(match[1]))
+                }
+                console.log("Chunk size = ", chunkSize)
             } else if (rsp.type === 'offer') {
-                setTimeout(get_answer.bind(null, count + 1), 3000)
+                setTimeout(getAnswer.bind(null, count + 1, roomId), 3000)
             }
         }
     }

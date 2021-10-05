@@ -46,8 +46,8 @@
                 <div class="cloud-icon"><img src="{{ url_for('static', filename='icons/cloudupload.svg') }}" alt=""></div>
                 <div class="drag-header">Drag & Drop to Upload a File</div>
                 <span style="color: #2AB7CA; font-size: 20px; margin-bottom: 22px;">OR</span>
-                <label for="file-input" class="browse-file">Browse file</label>
-                <input id="file-input" type="file" hidden="hidden"/>
+                <label for="file-input" class="browse-file">Browse file(s)</label>
+                <input id="file-input" type="file" hidden="hidden" multiple/>
             </div>
             <div class="progress-text"><p></p></div>
             <div class="progress">
@@ -103,9 +103,9 @@
 </body>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script type="application/javascript">
-    const cross_icon = '{{ url_for('static', filename='icons/cross.svg') }}';
-    const info_icon = '{{ url_for('static', filename='icons/information.svg') }}' ;
-    const success_icon = '{{ url_for('static', filename='icons/success.svg') }}' ;
+    const crossIcon = '{{ url_for('static', filename='icons/cross.svg') }}';
+    const infoIcon = '{{ url_for('static', filename='icons/information.svg') }}' ;
+    const successIcon = '{{ url_for('static', filename='icons/success.svg') }}' ;
 </script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script src="{{ url_for('static', filename='js/sender.js') }}"></script>
