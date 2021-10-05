@@ -3,7 +3,8 @@
 [![GitHub issues](https://img.shields.io/github/issues/sh3b0/pft)](https://gitHub.com/sh3bo/pft/issues/)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/sh3b0/pft)](https://gitHub.com/sh3bo/pft/pulls/)
 [![GitHub stars](https://img.shields.io/github/stars/Sh3b0/pft)](https://github.com/Sh3B0/pft/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/yegor256/takes/blob/master/LICENSE.txt)
+[![GitHub Super-Linter](https://github.com/sh3b0/pft/workflows/Super-Linter/badge.svg)](https://github.com/marketplace/actions/super-linter)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/Sh3b0/pft/blob/main/LICENSE)
 
 # Pipe File Transfer (PFT)
 PFT is a Web Application for simultaneous upload/download of files between two users. It uses [WebRTC](https://webrtc.org/) as the underlying protocol.
@@ -69,7 +70,6 @@ Artifact document can be accessed from [here](https://docs.google.com/document/d
 
 ## Sequence Diagram
 <img src="./Screenshots/Sequence_Diagram.svg">
-
 
 ## Contribution
 Feel free to open a pull request, suggest a feature, or report a bug by creating an issue  
