@@ -1,7 +1,5 @@
 __pycache__/
 venv/
 node_modules/
-package.json
-package-lock.json
 r/*.json
 .DS_Store
