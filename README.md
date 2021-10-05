@@ -4,6 +4,7 @@
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/sh3b0/pft)](https://gitHub.com/sh3bo/pft/pulls/)
 [![GitHub stars](https://img.shields.io/github/stars/Sh3b0/pft)](https://github.com/Sh3B0/pft/)
 [![GitHub Super-Linter](https://github.com/sh3b0/pft/workflows/Super-Linter/badge.svg)](https://github.com/marketplace/actions/super-linter)
+[![Hits-of-Code](https://hitsofcode.com/github/sh3b0/pft/?branch=main)](https://hitsofcode.com/github/sh3b0/pft/view?branch=main)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/Sh3b0/pft/blob/main/LICENSE)
 
 # Pipe File Transfer (PFT)
