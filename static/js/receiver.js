@@ -1,5 +1,4 @@
 'use strict';
-let unused_var = 0  // Testing eslint
 const connectButton = document.getElementById('connect-button')
 let remoteConnection, receiverBuffer = [], receivedSize = 0, offer, fileMeta, receiveChannel
 
