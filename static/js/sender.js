@@ -71,11 +71,12 @@ async function sendFiles() {
             let chunk = await readChunkAsync(file.slice(bytesSent, bytesSent + chunkSize))
             sendChannel.send(chunk)
             progressText.innerText = "Sending " + file.name + " " +
-                (bytesSent / file.size).toFixed(2).toString() + "% ..."
-            progressFill.style.width = (bytesSent / file.size).toString() + "%"
+                (bytesSent / file.size * 100).toFixed(2).toString() + "% ..."
+            progressFill.style.width = (bytesSent / file.size * 100).toString() + "%"
             await awaitACK()
         }
     }
+    progressText.innerText = ""
     progress.style.display = "none"
     status.dispatchEvent(
         new CustomEvent('statusChange', {detail: "Upload Complete!"})

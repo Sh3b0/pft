@@ -33,6 +33,8 @@ window.onload = () => {
                     status.dispatchEvent(
                         new CustomEvent('statusChange', {detail: "Download Complete!"})
                     )
+                    progressText.innerText = ""
+                    progress.style.display = "none"
                     const blob = new Blob(receiverBuffer)
                     let downloadLink = document.createElement('a')
                     downloadLink.href = URL.createObjectURL(blob)
