@@ -17,9 +17,14 @@ name: Super-Linter
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '**/README.md'
+      
   pull_request:
     branches: [main]
-
+    paths-ignore:
+      - '**/README.md'
+    
 ###############
 # Set the Job #
 ###############
