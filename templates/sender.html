@@ -106,6 +106,12 @@
     const crossIcon = '{{ url_for('static', filename='icons/cross.svg') }}';
     const infoIcon = '{{ url_for('static', filename='icons/information.svg') }}' ;
     const successIcon = '{{ url_for('static', filename='icons/success.svg') }}' ;
+    const status = document.getElementsByClassName('notify')[0] ;
+    const progress = document.getElementsByClassName('progress')[0] ;
+    const progressFill = document.getElementsByClassName('progress-fill')[0] ;
+    const progressText = document.getElementsByClassName('progress-text')[0] ;
+    const inviteLink = document.getElementById('invite-link') ;
+    const conf = {iceServers: [{urls: 'stun:stun.l.google.com:19302'}]} ;
 </script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script src="{{ url_for('static', filename='js/sender.js') }}"></script>

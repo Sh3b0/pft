@@ -24,10 +24,10 @@ window.onload = () => {
     localConnection.createOffer().then(o => localConnection.setLocalDescription(o))
 }
 
-function awaitACK(){
+function awaitACK() {
     return new Promise((resolve, reject) => {
         sendChannel.onmessage = e => {
-            if(e.data === 'ACK') resolve()
+            if (e.data === 'ACK') resolve()
             else reject()
         }
     })

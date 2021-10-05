@@ -7,8 +7,10 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.9 (pft)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.8 (pft)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="adapter-latest" level="application" />
+    <orderEntry type="library" name="font-awesome" level="application" />
     <orderEntry type="library" name="adapter-latest" level="application" />
     <orderEntry type="library" name="font-awesome" level="application" />
   </component>

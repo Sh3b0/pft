@@ -3,5 +3,5 @@
   <component name="ProjectResources">
     <resource url="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&amp;display=swap" location="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.9 (pft)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8 (pft)" project-jdk-type="Python SDK" />
 </project>

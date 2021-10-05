@@ -1,16 +1,5 @@
 'use strict';
 
-const status = document.getElementsByClassName('notify')[0]
-const progress = document.getElementsByClassName('progress')[0]
-const progressFill = document.getElementsByClassName('progress-fill')[0]
-const progressText = document.getElementsByClassName('progress-text')[0]
-const inviteLink = document.getElementById('invite-link')
-const conf = {iceServers: [{urls: 'stun:stun.l.google.com:19302'}]}
-
-function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-}
-
 window.onload = () => {
     try {
         new RTCPeerConnection()
