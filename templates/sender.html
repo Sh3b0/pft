@@ -42,6 +42,7 @@
             </div>
         </div>
         <div class="right-main">
+
             <div class="drag-area">
                 <div class="cloud-icon"><img src="{{ url_for('static', filename='icons/cloudupload.svg') }}" alt=""></div>
                 <div class="drag-header">Drag & Drop to Upload a File</div>
@@ -49,6 +50,12 @@
                 <label for="file-input" class="browse-file">Browse file(s)</label>
                 <input id="file-input" type="file" hidden="hidden" multiple/>
             </div>
+
+            <div class="drag-area-filled" hidden>
+                <div class="file-sending-icon"><img src="" alt="{{ url_for('static', filename='icons/File-sending.svg') }}"></div>
+                <div class="filename"><span style="color: #0F1020; font-size: 14px">image.png</span> <span style="color: #5C6B73; font-size: 14px">(20MB)</span></div>
+            </div>
+
             <div class="progress-text"><p></p></div>
             <div class="progress">
                 <div class="progress-fill"></div>

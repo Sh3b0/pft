@@ -46,10 +46,16 @@
 
         </div>
         <div class="right-main">
+
             <div class="right-illustration">
                 <div class="illustration"> <img src="{{ url_for('static', filename='icons/illustration.svg') }}" alt=""></div>
             </div>
 
+            <div class="drag-area-filled" hidden>
+                <div class="file-sending-icon"><img src="" alt="{{ url_for('static', filename='icons/File-sending.svg') }}"></div>
+                <div class="filename"><span style="color: #0F1020; font-size: 14px">image.png</span> <span style="color: #5C6B73; font-size: 14px">(20MB)</span></div>
+            </div>
+            
             <div class="progress-text"><p> </p></div>
             <div class="progress">
                 <div class="progress-fill"></div>
