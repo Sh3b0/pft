@@ -1,9 +1,26 @@
 'use strict';
+
+import {
+    init,
+    getShortFileName,
+    formatBytes,
+    status,
+    conf,
+    progress,
+    progressFill,
+    progressText,
+    dragAreaFilled,
+    fileText,
+    inviteLink,
+} from "/static/js/common.js"
+
 const connectButton = document.getElementById('connect-button')
-let remoteConnection, receiverBuffer = [], receivedSize = 0, offer, fileMeta, receiveChannel
+const illustration = document.querySelector('.right-illustration')
+let remoteConnection, receiverBuffer = [], bytesReceived = 0, offer, fileMeta, receiveChannel, fileCount = 0
 
 // Connection establishment
 window.onload = () => {
+    init()
     window.onbeforeunload = closeConnection
     remoteConnection = new RTCPeerConnection(conf)
     remoteConnection.ondatachannel = e => {
@@ -13,34 +30,41 @@ window.onload = () => {
             status.dispatchEvent(
                 new CustomEvent('statusChange', {detail: "Connected"})
             )
-            progress.style.display = "flex"
         }
         receiveChannel.onmessage = e => {
             if (e.data.ice) {
                 remoteConnection.addIceCandidate(e.data.ice).then()
             } else if (typeof (e.data) === "string") {
                 fileMeta = JSON.parse(e.data)
+                illustration.style.display = "none"
+                progress.style.display = "flex"
+                dragAreaFilled.style.display = "flex"
+                fileText.firstChild.textContent = getShortFileName(fileMeta.name)
+                fileText.children[1].textContent = `(${formatBytes(fileMeta.size)})`
+                fileCount += 1
             } else {
                 connectButton.disabled = true
                 receiverBuffer.push(e.data)
-                receivedSize += e.data.byteLength
-                progressText.innerText = "Downloading " + fileMeta.name + " " +
-                    (receivedSize / fileMeta.size * 100).toFixed(2).toString() + "% ..."
-                progressFill.style.width = (receivedSize / fileMeta.size * 100).toString() + "%"
+                bytesReceived += e.data.byteLength
+                progressText.innerText = `Downloaded ${formatBytes(bytesReceived)}`
+                progressFill.style.width = (bytesReceived / fileMeta.size * 100).toString() + "%"
                 receiveChannel.send("ACK")
-                if (receivedSize === fileMeta.size) {
+                if (bytesReceived === fileMeta.size) {
                     status.dispatchEvent(
-                        new CustomEvent('statusChange', {detail: "Download Complete!"})
+                        new CustomEvent('statusChange', {detail: `Downloaded ${fileCount} file(s)`})
                     )
                     progressText.innerText = ""
                     progress.style.display = "none"
+                    fileText.style.display = "none"
+                    dragAreaFilled.style.display = "none"
+                    illustration.style.display = "flex"
                     const blob = new Blob(receiverBuffer)
                     let downloadLink = document.createElement('a')
                     downloadLink.href = URL.createObjectURL(blob)
                     downloadLink.download = fileMeta.name
                     downloadLink.click()
                     receiverBuffer = []
-                    receivedSize = 0
+                    bytesReceived = 0
                 }
             }
         }
@@ -72,7 +96,7 @@ function getOffer(roomId) {
                 putAnswer(roomId)
             } else {
                 status.dispatchEvent(
-                    new CustomEvent('statusChange', {detail: "Connection Error, Retrying..."})
+                    new CustomEvent('statusChange', {detail: "Connection Error. Retrying..."})
                 )
                 setTimeout(getOffer, 1000)
             }
@@ -95,16 +119,15 @@ function putAnswer(roomId) {
             remoteConnection.createAnswer().then(a => remoteConnection.setLocalDescription(a))
                 .then(() => xhr.send(JSON.stringify(remoteConnection.localDescription)))
                 .catch(() => status.dispatchEvent(
-                    new CustomEvent('statusChange', {detail: "Connection Error"})
+                    new CustomEvent('statusChange', {detail: "Connection Error. Please try again"})
                 ))
         })
         .catch(() => status.dispatchEvent(
-            new CustomEvent('statusChange', {detail: "Connection Error"})
+            new CustomEvent('statusChange', {detail: "Connection Error. Please try again"})
         ))
 }
 
-
-// Press enter to connect
+// Pressing enter to connect
 inviteLink.addEventListener("keyup", function (e) {
     if (e.key === "Enter") {
         e.preventDefault();

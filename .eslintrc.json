@@ -5,19 +5,9 @@
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaVersion": 12
+        "ecmaVersion": 12,
+        "sourceType": "module"
     },
     "rules": {
-    },
-    "globals": {
-        "status": "writable",
-        "progress": "writable",
-        "progressFill" : "writable",
-        "progressText":  "writable",
-        "inviteLink": "writable",
-        "conf" : "readonly",
-        "crossIcon" : "readonly",
-        "infoIcon" : "readonly",
-        "successIcon" : "readonly"
     }
 }
