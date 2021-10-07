@@ -39,8 +39,9 @@ window.onload = () => {
                 illustration.style.display = "none"
                 progress.style.display = "flex"
                 dragAreaFilled.style.display = "flex"
+                fileText.style.display = "flex"
                 fileText.firstChild.textContent = getShortFileName(fileMeta.name)
-                fileText.children[1].textContent = `(${formatBytes(fileMeta.size)})`
+                fileText.children[1].textContent = ` (${formatBytes(fileMeta.size)})`
                 fileCount += 1
             } else {
                 connectButton.disabled = true

@@ -134,8 +134,9 @@ function getAnswer(count, roomId) {
         if (e.target.readyState === 4) {
             if (xhr.status !== 200) {
                 status.dispatchEvent(
-                    new CustomEvent('statusChange', {detail: "Connection Error. Please try again."})
+                    new CustomEvent('statusChange', {detail: "Error connecting to server. Retrying..."})
                 )
+                setTimeout(getAnswer.bind(null, count + 1, roomId), 1000)
                 return
             }
             let rsp
