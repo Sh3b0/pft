@@ -1,4 +1,6 @@
 __pycache__/
 venv/
+node_modules/
+yarn.lock
 r/*.json
 .DS_Store

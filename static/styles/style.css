@@ -20,12 +20,12 @@ li, a {
 header {
     display: flex;
     justify-content: space-around;
-    align-items:flex-start;
+    align-items: flex-start;
     padding: 20px 10px;
     border-bottom: 1px solid #D8E6E8;
 }
 
-.logo{
+.logo {
     cursor: pointer;
     margin-left: 30px;
 }
@@ -51,7 +51,7 @@ header {
     margin-top: 40px;
     margin-left: 18%;
     /* gap: 180px; */
-    justify-content:space-between;
+    justify-content: space-between;
     flex-wrap: wrap;
 }
 
@@ -65,21 +65,7 @@ header {
     padding-bottom: 240px;
 }
 
-
-.info {
-    font-size: 13px;
-    color: #2AB7CA;
-    display: flex;
-    align-items: center;
-    padding-bottom: 10px;
-}
-
-.info-icon {
-    padding-right: 8px;
-    padding-top: 5px;
-}
-
-.link-create{
+.link-create {
     display: flex;
     align-items: center;
 }
@@ -93,7 +79,7 @@ header {
     outline: none;
     background-color: #2AB7CA;
     padding: 15px 30px;
-    border-radius: 0 10px  10px 0;
+    border-radius: 0 10px 10px 0;
     cursor: pointer;
 }
 
@@ -107,14 +93,15 @@ header {
     align-items: center;
     border: 1px solid #D8E6E8;
     padding: 14px 30px;
-    border-radius: 10px 0 0 10px;
+    border-radius: 10px 10px 10px 10px;
     color: #aec8cc;
-    width: 325px;
+    width: 400px;
 
 }
-.notify{
+
+.notify {
     font-size: 13px;
-    color: #22AA3A;
+    color: #F44336;
     display: flex;
     align-items: center;
     padding-top: 10px;
@@ -122,7 +109,7 @@ header {
 
 .notify-icon {
     padding-right: 8px;
-    padding-top:2px;
+    padding-top: 2px;
 }
 
 /* Drag- area css */
@@ -139,10 +126,31 @@ header {
     flex-direction: column;
 }
 
+.drag-area.active{
+    border: 2px solid #2AB7CA;
+}
+
+.drag-area-filled{
+    display:none;
+    border: 2px solid #2AB7CA;
+    margin-top: 20px;
+    width: 380px;
+    height: 300px;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .drag-header {
     font-size: 20px;
     color: #2AB7CA;
     margin: 22px 0 14px 0;
+    pointer-events: none;
+}
+
+.cloud-icon {
+    pointer-events: none;
 }
 
 
@@ -163,7 +171,7 @@ header {
     background-color: #0F1020;
 }
 
-.progress-text{
+.progress-text {
     margin-top: 13px;
     display: flex;
     width: 380px;
@@ -172,6 +180,7 @@ header {
     font-size: 14px;
     justify-content: space-around;
 }
+
 .progress {
     display: none;
     margin-top: 8px;
@@ -190,7 +199,7 @@ header {
 }
 
 /* ________________________ */
-.how-to{
+.how-to {
     margin-left: 18%;
     padding-top: 70px;
     font-size: 30px;
@@ -203,7 +212,7 @@ header {
     margin-top: 40px;
     margin-left: 18%;
     /* gap: 180px; */
-    justify-content:space-between;
+    justify-content: space-between;
     flex-wrap: wrap;
     padding-bottom: 40px;
 }
@@ -227,13 +236,13 @@ header {
     text-align: center;
 }
 
-footer{
+footer {
     font-size: 14px;
     width: 66%;
     color: #5C6B73;
     display: flex;
     margin-left: 18%;
-    bottom:15px;
+    bottom: 15px;
     justify-content: space-between;
     flex-wrap: wrap;
     padding-top: 20px;
@@ -241,7 +250,7 @@ footer{
     border-top: 1px solid #D8E6E8;
 }
 
-.right-foot{
+.right-foot {
     display: flex;
     width: 250px;
     justify-content: space-between;
@@ -253,7 +262,7 @@ footer{
 
 /* ___________ Receive Files page __________ */
 
-.right-illustration{
+.right-illustration {
     margin-top: 20px;
     width: 440px;
     height: 300px;
@@ -270,7 +279,7 @@ footer{
 }
 
 
-input{
+input {
     border: 1px solid #D8E6E8;
     border-radius: 10px 0 0 10px;
     font-size: 16px;
@@ -278,16 +287,16 @@ input{
     width: 370px;
 }
 
-input:hover{
-    border: 1px solid  #2AB7CA;
+input:hover {
+    border: 1px solid #2AB7CA;
 }
 
-input:focus{
-    border: 1px solid  #2AB7CA;
+input:focus {
+    border: 1px solid #2AB7CA;
     outline: #2AB7CA;
-    color:#0F1020
+    color: #0F1020
 }
 
 ::placeholder {
     color: #aec8cc;
-  }
+}

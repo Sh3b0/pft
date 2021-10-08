@@ -30,12 +30,6 @@
                 fast and easily through a <span style="color:#2AB7CA; font-weight: 600;">Pipe Connection</span>
             </div>
 
-
-            <div class="info">
-                <div class="info-icon"><img src="{{ url_for('static', filename='icons/information.svg') }}" alt=""></div>
-                <p>After a pipe connection is set, you don’t have to renew link/reload page again.</p>
-            </div>
-
             <div class="link-create">
                 <div class="link-receive">
                     <label>
@@ -46,14 +40,20 @@
             </div>
 
             <div class="notify">
-                <div class="notify-icon"><img src="{{ url_for('static', filename='icons/success.svg') }}" alt=""></div>
-                <p id="status"> Not connected </p>
+                <div class="notify-icon"><img src="{{ url_for('static', filename='icons/cross.svg') }}" alt=""></div>
+                <p> Not connected </p>
             </div>
 
         </div>
         <div class="right-main">
+
             <div class="right-illustration">
                 <div class="illustration"> <img src="{{ url_for('static', filename='icons/illustration.svg') }}" alt=""></div>
+            </div>
+
+            <div class="drag-area-filled" hidden>
+                <div class="file-sending-icon"><img src="{{ url_for('static', filename='icons/file-downloading.svg') }}" alt=""></div>
+                <div class="filename"><span style="color: #0F1020; font-size: 14px">image.png</span> <span style="color: #5C6B73; font-size: 14px">(20MB)</span></div>
             </div>
 
             <div class="progress-text"><p> </p></div>
@@ -70,17 +70,17 @@
     <div class="transfer-steps">
             <div class="steps">
                 <div class="img-steps"><img src="{{ url_for('static', filename='icons/link.svg') }}" alt=""></div>
-                <div class="title-steps">1. Get a link</div>
+                <div class="title-steps">1. Get ID</div>
                 <div class="para-steps">
-                    <p>A friend should have created a pipe already. Get the same link from your friend.</p>
+                    <p>A friend should have created a pipe already. Get the room id from your friend.</p>
                 </div>
             </div>
 
             <div class="steps">
                 <div class="img-steps"><img src="{{ url_for('static', filename='icons/paste-how.svg') }}" alt=""></div>
-                <div class="title-steps">2. Paste link</div>
+                <div class="title-steps">2. Paste ID</div>
                 <div class="para-steps">
-                    <p>Paste the given link from your friend in the designated field and connect.</p>
+                    <p>Paste the id from your friend in the designated field and press connect (or enter).</p>
                 </div>
             </div>
 
@@ -88,15 +88,15 @@
                 <div class="img-steps"><img src="{{ url_for('static', filename='icons/wait.svg') }}" alt=""></div>
                 <div class="title-steps">3. Wait your peer</div>
                 <div class="para-steps">
-                    <p>Wait for connection to be set and it usually takes 1-2 seconds.</p>
+                    <p>Wait until getting "Connected" status. It usually takes a few seconds.</p>
                 </div>
             </div>
 
             <div class="steps">
                 <div class="img-steps"><img src="{{ url_for('static', filename='icons/receive-how.svg') }}" alt=""></div>
-                <div class="title-steps">4. Share Files</div>
+                <div class="title-steps">4. Download Files</div>
                 <div class="para-steps">
-                    <p>Start sharing files with your peer and enjoy the fastest file transfer.</p>
+                    <p>Files will automatically be downloaded to your device</p>
                 </div>
             </div>
     </div>
@@ -110,6 +110,11 @@
     </footer>
 </body>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-<script src="{{ url_for('static', filename='js/receiver.js') }}"></script>
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script type="application/javascript">
+    const crossIcon = '{{ url_for('static', filename='icons/cross.svg') }}';
+    const infoIcon = '{{ url_for('static', filename='icons/information.svg') }}' ;
+    const successIcon = '{{ url_for('static', filename='icons/success.svg') }}' ;
+</script>
+<script type="module" src="{{ url_for('static', filename='js/common.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/receiver.js') }}"></script>
 </html>

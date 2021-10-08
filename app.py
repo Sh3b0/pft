@@ -14,5 +14,6 @@ def receive(room_id):
     return render_template('receiver.html')
 
 
-def run():
-    app.run(debug=True)
+@app.route('/about')
+def about():
+    return render_template('about.html')

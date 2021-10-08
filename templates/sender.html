@@ -30,32 +30,35 @@
                 fast and easily through a <span style="color:#2AB7CA; font-weight: 600;">Pipe Connection</span>
             </div>
 
-            <div class="info">
-                <div class="info-icon"><img src="{{ url_for('static', filename='icons/information.svg') }}" alt=""></div>
-                <p>After a pipe connection is set, you don’t have to renew link/reload page again.</p>
-            </div>
-
             <div class="link-create">
                 <div class="link-text">
-                    <p id="invite-link">Invitation link will show up here</p>
+                    <p id="invite-link">Room ID will show up here</p>
                 </div>
-                <button class="action-button" id="copy-link">Copy Link</button>
             </div>
 
             <div class="notify">
-                <div class="notify-icon"><img src="{{ url_for('static', filename='icons/success.svg') }}" alt=""></div>
-                <p id="status">Not connected</p>
+                <div class="notify-icon"><img src="{{ url_for('static', filename='icons/cross.svg') }}" alt=""></div>
+                <p>Not connected</p>
             </div>
         </div>
         <div class="right-main">
+
             <div class="drag-area">
                 <div class="cloud-icon"><img src="{{ url_for('static', filename='icons/cloudupload.svg') }}" alt=""></div>
-                <div class="drag-header">Drag & Drop to Upload a File</div>
-                <span style="color: #2AB7CA; font-size: 20px; margin-bottom: 22px;">OR</span>
-                <label for="file-input" class="browse-file">Browse file</label>
-                <input id="file-input" type="file" hidden="hidden"/>
+                <div class="drag-header">Drag & Drop to Upload File(s)</div>
+                <span id="or" style="color: #2AB7CA; font-size: 20px; margin-bottom: 22px;">OR</span>
+                <label for="file-input" class="browse-file">Browse file(s)</label>
+                <input id="file-input" type="file" hidden="hidden" multiple/>
             </div>
-            <div class="progress-text"><p> </p></div>
+
+            <div class="drag-area-filled">
+                <div class="file-sending-icon">
+                    <img src="{{ url_for('static', filename='icons/file-sending.svg') }}" alt=""></div>
+                <div class="filename"><span style="color: #0F1020; font-size: 14px">image.png</span>
+                    <span style="color: #5C6B73; font-size: 14px">(20MB)</span></div>
+            </div>
+
+            <div class="progress-text"><p></p></div>
             <div class="progress">
                 <div class="progress-fill"></div>
             </div>
@@ -67,17 +70,17 @@
     <div class="transfer-steps">
         <div class="steps">
             <div class="img-steps"><img src="{{ url_for('static', filename='icons/link.svg') }}" alt=""></div>
-            <div class="title-steps">1. Generate link</div>
+            <div class="title-steps">1. Upload file(s)</div>
             <div class="para-steps">
-                <p>Click the generate link button to get a person link to connect with your peer.</p>
+                <p>Upload one or more files to the area above</p>
             </div>
         </div>
 
         <div class="steps">
             <div class="img-steps"><img src="{{ url_for('static', filename='icons/copy-how.svg') }}" alt=""></div>
-            <div class="title-steps">2. Copy link</div>
+            <div class="title-steps">2. Copy ID</div>
             <div class="para-steps">
-                <p>Copy the generated link and share it with a the person you want to share files with.</p>
+                <p>Copy the generated room ID and share it with the person you want to share files with.</p>
             </div>
         </div>
 
@@ -85,15 +88,15 @@
             <div class="img-steps"><img src="{{ url_for('static', filename='icons/wait.svg') }}" alt=""></div>
             <div class="title-steps">3. Wait your peer</div>
             <div class="para-steps">
-                <p>Wait for your fellow pipeline peer to join through the link shared.</p>
+                <p>Wait for your peer to join through the link shared.</p>
             </div>
         </div>
 
         <div class="steps">
-            <div class="img-steps"><img src="{{ url_for('static', filename='icons/share-how.svg')}}" alt=""></div>
-            <div class="title-steps">4. Share Files</div>
+            <div class="img-steps"><img src="{{ url_for('static', filename='icons/share-how.svg') }}" alt=""></div>
+            <div class="title-steps">4. Share files</div>
             <div class="para-steps">
-                <p>Start sharing files with your peer and enjoy the fastest file transfer.</p>
+                <p>Start sharing files with your peer directly and securely. No need to refresh the page after connection.</p>
             </div>
         </div>
 
@@ -108,6 +111,11 @@
     </footer>
 </body>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-<script src="{{ url_for('static', filename='js/sender.js') }}"></script>
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script type="application/javascript">
+    const crossIcon = '{{ url_for('static', filename='icons/cross.svg') }}';
+    const infoIcon = '{{ url_for('static', filename='icons/information.svg') }}' ;
+    const successIcon = '{{ url_for('static', filename='icons/success.svg') }}' ;
+</script>
+<script type="module" src="{{ url_for('static', filename='js/common.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/sender.js') }}"></script>
 </html>
