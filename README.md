@@ -35,12 +35,12 @@ PFT is a Web Application for simultaneous upload/download of files between two u
 ### 1. Sending files screen.
 The first page that a user sees is the page for sending files. A user will generate a link and send it to his/her peer. After they are connected, then they can share files simultaneously.
 
-<img src="Screenshots/Transfer%20file.png" width="720" height="480" />
+![Send](/pictures/Transfer file.png)
 
 ### 2. Receiving files screen.<br />
 When a user wants to receive a file, they should be on the "Receive" page. After the link is generated and shared, the new peer who wants to connect pastes it in the designated input field to get connected. After the connection is successful, then they can share files simultaneously.
 
-<img src="/Screenshots/Receive%20file.png" width="720" height="480" />
+![Receive](/pictures/Receive file.png)
 
 ### 3. About us screen.
 Information about the team of developers behind this amazing tool is detailed here.  
@@ -69,7 +69,7 @@ Feel free to check and contact us!
 Artifact document can be accessed from [here](https://docs.google.com/document/d/1GqM4aWmn1mIMESfchbyP4V_1bdpMjHSS/edit?usp=sharing&ouid=115455970424621213111&rtpof=true&sd=true)
 
 ## Sequence Diagram
-<img src="./Screenshots/Sequence_Diagram.svg">
+<img src="./pictures/Sequence_Diagram.svg">
 
 ## Contribution
 Feel free to open a pull request, suggest a feature, or report a bug by creating an issue  
