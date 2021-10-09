@@ -1,111 +1,171 @@
 'use strict';
 
-const connectButton = document.getElementById('connect-button')
-let remoteConnection, receiverBuffer = [], receivedSize = 0, offer, fileMeta, receiveChannel
+import {
+    init,
+    getShortFileName,
+    formatBytes,
+    status,
+    conf,
+    progress,
+    progressFill,
+    progressText,
+    uploadRate,
+    dragAreaFilled,
+    fileText,
+    inviteLink,
+} from "/static/js/main.js"
 
+const connectButton = document.getElementById('connect-button')
+const illustration = document.querySelector('.right-illustration')
+let remoteConnection, receiverBuffer = [], bytesReceived = 0, offer, fileMeta, receiveChannel, fileCount = 0
+let i = 0, start_time
 // Connection establishment
 window.onload = () => {
-    try {
-        remoteConnection = new RTCPeerConnection(conf)
-    } catch (ReferenceError) {
-        alert("Your browser doesn't support WebRTC, please use a different one to be able to use the app.")
-        return
-    }
+    init()
+    window.onbeforeunload = closeConnection
+    remoteConnection = new RTCPeerConnection(conf)
+
     remoteConnection.ondatachannel = e => {
         receiveChannel = e.channel
         receiveChannel.binaryType = 'arraybuffer'
         receiveChannel.onopen = () => {
             status.dispatchEvent(
+
                 new CustomEvent('statusChange', {detail: "Connected"})
             )
-            progress.style.display = "flex"
+
         }
         receiveChannel.onmessage = e => {
-            if (typeof (e.data) === "string") {  // Sending another file
+            if (e.data.ice) {
+                remoteConnection.addIceCandidate(e.data.ice).then()
 
-                console.log(e.data)
-
+            } else if (typeof (e.data) === "string") {
                 fileMeta = JSON.parse(e.data)
-                return
-            }
-            connectButton.disabled = true
-            receiverBuffer.push(e.data)
-            receivedSize += e.data.byteLength
-            console.log("received", receivedSize, "out of", fileMeta.size)
-            progressText.innerText = "Downloading " + fileMeta.name + " " +
-                (receivedSize / fileMeta.size * 100).toFixed(2).toString() + "% ..."
-            progressFill.style.width = (receivedSize / fileMeta.size * 100).toString() + "%"
-            if (receivedSize === fileMeta.size) {
-                status.dispatchEvent(
-                    new CustomEvent('statusChange', {detail: "Download Complete!"})
-                )
-                const blob = new Blob(receiverBuffer)
-                receiverBuffer = []
-                receivedSize = 0
-                let downloadLink = document.createElement('a')
-                downloadLink.href = URL.createObjectURL(blob)
-                downloadLink.download = fileMeta.name
-                downloadLink.click()
-                receiverBuffer = []
-                receivedSize = 0
+                illustration.style.display = "none"
+                progress.style.display = "flex"
+                dragAreaFilled.style.display = "flex"
+                fileText.style.display = "flex"
+                fileText.firstChild.textContent = getShortFileName(fileMeta.name)
+                fileText.children[1].textContent = ` (${formatBytes(fileMeta.size)})`
+                fileCount += 1
+            } else {
+                i += 1
+                if (i === 1){
+                    start_time = (new Date()).getTime()
+                }
+                connectButton.disabled = true
+                receiverBuffer.push(e.data)
+                bytesReceived += e.data.byteLength
+                progressText.innerText = `Downloaded ${formatBytes(bytesReceived)}`
+                progressFill.style.width = (bytesReceived / fileMeta.size * 100).toString() + "%"
+
+                let end_time = (new Date()).getTime()
+
+                let upload_rate = ((bytesReceived/((end_time - start_time)/1000)/1024)/1024).toFixed(2)
+                uploadRate.innerText = "Download Rate: " + upload_rate + "Mb/s"
+                receiveChannel.send("ACK")
+                if (bytesReceived === fileMeta.size) {
+                    i = 0
+                    status.dispatchEvent(
+                        new CustomEvent('statusChange', {detail: `Downloaded ${fileCount} file(s)`})
+                    )
+                    progressText.innerText = ""
+                    uploadRate.innerText = ""
+                    progress.style.display = "none"
+                    fileText.style.display = "none"
+                    dragAreaFilled.style.display = "none"
+                    illustration.style.display = "flex"
+                    const blob = new Blob(receiverBuffer)
+                    let downloadLink = document.createElement('a')
+                    downloadLink.href = URL.createObjectURL(blob)
+                    downloadLink.download = fileMeta.name
+                    downloadLink.click()
+                    receiverBuffer = []
+                    bytesReceived = 0
+                }
             }
         }
         remoteConnection.channel = receiveChannel
     }
-    get_offer(document.location.pathname.split('/')[2])
+    getOffer(document.location.pathname.split('/')[2])
 }
 
 // API request to get and parse SDP (offer) from server
-function get_offer(room_id) {
-    if (room_id === "") return
+function getOffer(roomId) {
+    if (roomId === "") return
     console.log("Getting offer...")
     status.dispatchEvent(
         new CustomEvent('statusChange', {detail: "Connecting..."})
     )
     let xhr = new XMLHttpRequest()
-    let roomLink = document.location.origin + '/api/' + room_id
+    let roomLink = document.location.origin + '/api/' + roomId
     xhr.open("GET", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send()
     xhr.onreadystatechange = e => {
         if (e.target.readyState === 4) {
-            if (xhr.status !== 200) {
+            if (xhr.status === 200) {
+                let rsp = JSON.parse(JSON.parse(xhr.response))
+                offer = {
+                    type: rsp.type,
+                    sdp: rsp.sdp
+                }
+                putAnswer(roomId)
+            } else {
                 status.dispatchEvent(
-                    new CustomEvent('statusChange', {detail: "Connection Error"})
+                    new CustomEvent('statusChange', {detail: "Connection Error. Retrying..."})
                 )
-                return
+                setTimeout(getOffer, 1000)
             }
-            let rsp = JSON.parse(JSON.parse(xhr.response))
-            offer = {
-                type: rsp.type,
-                sdp: rsp.sdp
-            }
-            put_answer(room_id)
         }
     }
 }
 
 // API request to put SDP (answer) to server
-function put_answer(room_id) {
+function putAnswer(roomId) {
     console.log("Putting answer...")
     status.dispatchEvent(
         new CustomEvent('statusChange', {detail: "Connecting"})
     )
     let xhr = new XMLHttpRequest()
-    let room_link = document.location.origin + '/api/' + room_id
-    xhr.open("PUT", room_link, true)
+    let roomLink = document.location.origin + '/api/' + roomId
+    xhr.open("PUT", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
     remoteConnection.setRemoteDescription(offer)
         .then(() => {
             remoteConnection.createAnswer().then(a => remoteConnection.setLocalDescription(a))
                 .then(() => xhr.send(JSON.stringify(remoteConnection.localDescription)))
                 .catch(() => status.dispatchEvent(
-                    new CustomEvent('statusChange', {detail: "Connection Error"})
+                    new CustomEvent('statusChange', {detail: "Connection Error. Please try again"})
                 ))
         })
         .catch(() => status.dispatchEvent(
-            new CustomEvent('statusChange', {detail: "Connection Error"})
+            new CustomEvent('statusChange', {detail: "Connection Error. Please try again"})
         ))
+}
+
+// Pressing enter to connect
+inviteLink.addEventListener("keyup", function (e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        connectButton.click();
+    }
+})
+
+// Join room
+connectButton.onclick = () => {
+    if (inviteLink.value === '') {
+        alert("Please enter a room id/link")
+    } else {
+        let room = inviteLink.value
+        if (Number.isInteger(parseInt(room))) {
+            getOffer(room)
+        } else if (Number.isInteger(parseInt(room.split('/').slice(-1)[0]))) {
+            getOffer(room.split('/').slice(-1)[0])
+        } else {
+            alert("Invalid invitation link or room id.")
+        }
+    }
 }
 
 // Closes Data Channel and remote connection
@@ -120,18 +180,3 @@ function closeConnection() {
     }
 }
 
-connectButton.onclick = () => {
-    if (inviteLink.value === '') {
-        alert("Please enter a room id/link")
-    }
-    let room = inviteLink.value
-    if (Number.isInteger(parseInt(room))) {
-        get_offer(room)
-    } else if (Number.isInteger(parseInt(room.split('/').slice(-1)[0]))) {
-        get_offer(room.split('/').slice(-1)[0])
-    } else {
-        alert("Invalid invitation link or room id.")
-    }
-}
-
-window.onbeforeunload = closeConnection

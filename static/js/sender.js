@@ -1,166 +1,228 @@
 'use strict';
+import {
+    init,
+    getShortFileName,
+    formatBytes,
+    status,
+    conf,
+    progress,
+    progressFill,
+    progressText,
+    uploadRate,
+    dragAreaFilled,
+    fileText,
+    inviteLink,
+} from "/static/js/main.js"
 
 const fileInput = document.getElementById('file-input')
-let localConnection, sendChannel, latestOffer, fileMeta
-let room_id
+const browseLabel = document.querySelector('.browse-file')
+const dragArea = document.querySelector(".drag-area")
+
+let textSpan = document.getElementById("or")
+let dragText = document.querySelector(".drag-header")
+let localConnection, sendChannel, latestOffer, chunkSize
 
 // Creating local connection
 window.onload = () => {
-    try {
-        localConnection = new RTCPeerConnection(conf)
-    } catch (ReferenceError) {
-        alert("Your browser doesn't support WebRTC, please use a different one to be able to use the app.")
-        return
-    }
-    localConnection.onicecandidate = () => {
+    init()
+    localConnection = new RTCPeerConnection(conf)
+    localConnection.onicecandidate = e => {
         latestOffer = localConnection.localDescription
+        if (sendChannel.readyState === 'open' && e.candidate)
+            sendChannel.send(JSON.stringify({ice: e.candidate}))
     }
     sendChannel = localConnection.createDataChannel("sendChannel")
-    sendChannel.onopen = sendFile
-    localConnection.createOffer().then(o => localConnection.setLocalDescription(o))
-}
-
-// Toggle send/invite button
-function onFileInputChange() {
-    if (!sendChannel) return
-
-    if (sendChannel && sendChannel.readyState === 'open') {
-        if (fileInput.files.length === 0) return
-
-        sendFile()
-
-    } else {
-
-        put_offer()
+    sendChannel.onopen = () => {
+        status.dispatchEvent(
+            new CustomEvent('statusChange', {detail: "Connected"})
+        )
+        if (fileInput.files.length !== 0) {
+            progress.style.display = "flex"
+            sendFiles().then()
+        }
     }
+    localConnection.createOffer().then(o => localConnection.setLocalDescription(o))
+    window.onbeforeunload = closeConnection
+    dragArea.addEventListener("dragover", onDragOver)
+    dragArea.addEventListener("dragleave", resetDrag)
+    dragArea.addEventListener('drop', fileUploading)
+    fileInput.addEventListener('change', fileUploading)
 }
 
-// SendButton functionality
-async function sendFile() {
+
+// Reads one chunk of the file
+function readChunkAsync(chunk) {
+    return new Promise((resolve, reject) => {
+        let reader = new FileReader()
+        reader.onload = () => {
+            resolve(reader.result)
+        }
+        reader.onerror = reject
+        reader.readAsArrayBuffer(chunk)
+    })
+}
+
+// Resolves on ACK message from receiver (for each chunk)
+function awaitACK() {
+    return new Promise((resolve, reject) => {
+        sendChannel.onmessage = e => {
+            if (e.data === 'ACK') resolve()
+            else reject()
+        }
+    })
+}
+
+// Sends all files in fileInput through an open sendChannel
+async function sendFiles() {
     fileInput.disabled = true
     for (let i = 0; i < fileInput.files.length; i++) {
-        let sent = false
-        fileMeta = {
-            name: fileInput.files[i].name,
-            size: fileInput.files[i].size,
-            last_modified: fileInput.files[i].lastModified,
-        }
         let file = fileInput.files[i]
-        console.log("sending file#:", i + 1, "name: ", file.name)
-        const fileReader = new FileReader();
-        const chunkSize = 16000// 262144
-        let so_far = 0
-        //send file meta first
-        sendChannel.send(JSON.stringify(fileMeta))
-        const readChunk = o => {
-            const slice = file.slice(o, o + chunkSize)
-            fileReader.readAsArrayBuffer(slice)
+        sendChannel.send(JSON.stringify({name: file.name, size: file.size}))
+        fileText.firstChild.textContent = getShortFileName(file.name)
+        fileText.children[1].textContent = `(${formatBytes(file.size)})`
+        let start_time = (new Date()).getTime()
+        for (let bytesSent = 0; bytesSent <= file.size; bytesSent += chunkSize) {
+
+            let chunk = await readChunkAsync(file.slice(bytesSent, bytesSent + chunkSize))
+            sendChannel.send(chunk)
+            let end_time = (new Date()).getTime()
+            let upload_rate = ((bytesSent/((end_time - start_time)/1000)/1024)/1024).toFixed(2)
+
+            let percentage = (bytesSent / file.size * 100).toFixed(2)
+            progressText.innerText = `Sending file ${i + 1}/${fileInput.files.length} - `  +
+                `${formatBytes(bytesSent)} Uploaded`
+
+            progressFill.style.width = percentage + "%"
+            uploadRate.innerText = " Upload rate: " + upload_rate + "Mb/s"
+            await awaitACK()
         }
-
-        readChunk(0)
-        // Start sending file
-        while (!sent) {
-
-            status.dispatchEvent(
-                new CustomEvent('statusChange', {detail: "Connected"})
-            )
-
-            progress.style.display = "flex"
-            fileReader.onerror = e => {
-                console.error('Error reading file: ', e)
-                closeConnection()
-            }
-
-            // On reading a part of the file, we send that part
-            fileReader.onload = sendChunk
-
-            async function sendChunk() {
-                await timeout(0.1)
-                try {
-                    sendChannel.send(fileReader.result)
-                } catch (DOMException) {
-                    status.dispatchEvent(
-                        new CustomEvent('statusChange', {detail: "Connection Error"})
-                    )
-                    return
-                }
-                so_far += fileReader.result.byteLength
-                progressText.innerText = "Sending " + file.name + " " + (so_far / file.size * 100).toFixed(2).toString() + "% ..."
-                progressFill.style.width = (so_far / file.size * 100).toString() + "%"
-                if (so_far === file.size) {
-                    status.dispatchEvent(
-                        new CustomEvent('statusChange', {detail: "Upload Complete!"})
-                    )
-                    sent = true
-                }
-                if (so_far < file.size) {
-                    // Reads chunkSize bytes of the file
-                    readChunk(so_far)
-                }
-            }
-
-            await timeout(0.1)
-        }
+        status.dispatchEvent(
+            new CustomEvent('statusChange', {detail: `Uploaded ${i + 1} file(s)`})
+        )
     }
+    progressText.innerText = ""
+    uploadRate.innerText = ""
+    progress.style.display = "none"
+    status.dispatchEvent(
+        new CustomEvent('statusChange', {detail: `Uploaded ${fileInput.files.length} file(s)`})
+    )
+    resetDrag(null)
     fileInput.disabled = false
 }
 
-function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-}
-
 // Puts SDP offer to API
-function put_offer() {
+function putOffer() {
     console.log("Putting offer...")
+    let roomId = Math.floor(Math.random() * 9e9 + 1e9)
+    let roomLink = document.location.origin + '/api/' + roomId
     let xhr = new XMLHttpRequest()
-    room_id = Math.floor(Math.random() * (1e10 - 1) + 1e9)
-    let roomLink = document.location.origin + '/api/' + room_id
     xhr.open("PUT", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send(JSON.stringify(latestOffer.toJSON()))
-
-    inviteLink.textContent = room_id.toString()
+    inviteLink.textContent = roomId.toString()
     inviteLink.style.color = "black"
     status.dispatchEvent(
         new CustomEvent('statusChange', {detail: "Waiting for receiver to join"})
     )
     console.log("Waiting for answer...")
-    get_answer(0)
+    getAnswer(0, roomId)
 }
 
 // Gets SDP answer from API
-function get_answer(count) {
+function getAnswer(count, roomId) {
     if (count >= 1000) {
         alert("Room timed out (receiver didn't join). Please try again.")
         location.reload()
     }
     let xhr = new XMLHttpRequest()
-    let room_link = document.location.origin + '/api/' + room_id
-    xhr.open("GET", room_link, true)
+    let roomLink = document.location.origin + '/api/' + roomId
+    xhr.open("GET", roomLink, true)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send()
     xhr.onreadystatechange = e => {
         if (e.target.readyState === 4) {
             if (xhr.status !== 200) {
                 status.dispatchEvent(
-                    new CustomEvent('statusChange', {detail: "Connection Error"})
+                    new CustomEvent('statusChange', {detail: "Error connecting to server. Retrying..."})
+                )
+                setTimeout(getAnswer.bind(null, count + 1, roomId), 1000)
+                return
+            }
+            let rsp
+            try {
+                rsp = JSON.parse(JSON.parse(xhr.response))
+            } catch (SyntaxError) {
+                status.dispatchEvent(
+                    new CustomEvent('statusChange', {detail: "Connection Error. Please try again."})
                 )
                 return
             }
-            let rsp = JSON.parse(JSON.parse(xhr.response))
             if (rsp.type === "answer" && localConnection.iceGatheringState === 'complete') {
                 status.dispatchEvent(
                     new CustomEvent('statusChange', {detail: "Connecting..."})
                 )
                 localConnection.setRemoteDescription(rsp)
                     .catch(() => status.dispatchEvent(
-                        new CustomEvent('statusChange', {detail: "Connection Error"})
+                        new CustomEvent('statusChange', {detail: "Connection Error. Please try again."})
                     ))
+                chunkSize = 16384
+                const match = rsp.sdp.match(/a=max-message-size:\s*(\d+)/)
+                if (match !== null && match.length >= 2) {
+                    chunkSize = Math.max(chunkSize, parseInt(match[1]))
+                }
             } else if (rsp.type === 'offer') {
-                setTimeout(get_answer.bind(null, count + 1), 3000)
+                setTimeout(getAnswer.bind(null, count + 1, roomId), 3000)
             }
         }
     }
+}
+
+// Called when user drops files on dragArea, or changes file using Browse button
+// Changes UI to show the file and creates room (or immediately send file if channel is already open)
+function fileUploading(e) {
+    e.preventDefault()
+    dragArea.style.display = "none"
+    dragAreaFilled.style.display = "flex"
+    dragArea.classList.remove("active")
+    if (e.dataTransfer) fileInput.files = e.dataTransfer.files
+    if (fileInput.files.length > 1) {
+        let total_size = 0
+        fileText.firstChild.textContent = fileInput.files.length + " files"
+        for (let i = 0; i < fileInput.files.length; i++) total_size += fileInput.files[i].size
+        fileText.children[1].textContent = `(${formatBytes(total_size)})`
+    } else {
+        fileText.firstChild.textContent = getShortFileName(fileInput.files[0].name)
+        fileText.children[1].textContent = `(${formatBytes(fileInput.files[0].size)})`
+    }
+    if (sendChannel && sendChannel.readyState === 'open' && fileInput.files.length !== 0) {
+        status.dispatchEvent(
+            new CustomEvent('statusChange', {detail: "Connected"})
+        )
+        progress.style.display = "flex"
+        sendFiles().then()
+    } else {
+        putOffer()
+    }
+}
+
+// Adjusts UI on dragArea leave or file upload complete
+function resetDrag(e) {
+    if (e) e.preventDefault()
+    dragAreaFilled.style.display = "none"
+    dragArea.style.display = "flex"
+    browseLabel.style.display = "flex"
+    textSpan.style.display = "flex"
+    dragArea.classList.remove("active")
+    dragText.textContent = "Drag & Drop to Upload File(s)"
+}
+
+// Adjusts UI on dragArea enter
+function onDragOver(e) {
+    e.preventDefault()
+    browseLabel.style.display = "none"
+    textSpan.style.display = "none"
+    dragArea.classList.add("active")
+    dragText.textContent = "Release to upload file(s)"
 }
 
 // Closes Data Channel and local connection
@@ -175,6 +237,3 @@ function closeConnection() {
     }
     fileInput.disabled = false
 }
-
-window.onbeforeunload = closeConnection
-fileInput.onchange = onFileInputChange

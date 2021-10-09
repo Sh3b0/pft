@@ -126,10 +126,31 @@ header {
     flex-direction: column;
 }
 
+.drag-area.active{
+    border: 2px solid #2AB7CA;
+}
+
+.drag-area-filled{
+    display:none;
+    border: 2px solid #2AB7CA;
+    margin-top: 20px;
+    width: 380px;
+    height: 300px;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .drag-header {
     font-size: 20px;
     color: #2AB7CA;
     margin: 22px 0 14px 0;
+    pointer-events: none;
+}
+
+.cloud-icon {
+    pointer-events: none;
 }
 
 
