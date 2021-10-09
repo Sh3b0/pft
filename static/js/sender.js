@@ -20,7 +20,7 @@ const dragArea = document.querySelector(".drag-area")
 
 let textSpan = document.getElementById("or")
 let dragText = document.querySelector(".drag-header")
-let localConnection, sendChannel, latestOffer, chunkSize
+let localConnection, sendChannel, latestOffer, chunkSize, start_time, sent_size = 0, upload_rate
 
 // Creating local connection
 window.onload = () => {
@@ -80,21 +80,29 @@ async function sendFiles() {
         sendChannel.send(JSON.stringify({name: file.name, size: file.size}))
         fileText.firstChild.textContent = getShortFileName(file.name)
         fileText.children[1].textContent = `(${formatBytes(file.size)})`
-        let start_time = (new Date()).getTime()
+        let frequency = 0
+        start_time = (new Date()).getTime()
         for (let bytesSent = 0; bytesSent <= file.size; bytesSent += chunkSize) {
+            frequency += 1
+            sent_size = sent_size + chunkSize
 
             let chunk = await readChunkAsync(file.slice(bytesSent, bytesSent + chunkSize))
             sendChannel.send(chunk)
-            let end_time = (new Date()).getTime()
-            let upload_rate = ((bytesSent/((end_time - start_time)/1000)/1024)/1024).toFixed(2)
 
             let percentage = (bytesSent / file.size * 100).toFixed(2)
-            progressText.innerText = `Sending file ${i + 1}/${fileInput.files.length} - `  +
+            progressText.innerText = `Sending file ${i + 1}/${fileInput.files.length} - ` +
                 `${formatBytes(bytesSent)} Uploaded`
 
             progressFill.style.width = percentage + "%"
-            uploadRate.innerText = " Upload rate: " + upload_rate + "Mb/s"
+
             await awaitACK()
+            if (frequency % 20 === 0) {
+                let end_time = (new Date()).getTime()
+                upload_rate = ((sent_size / ((end_time - start_time) / 1000) / 1024) / 1024).toFixed(2)
+                start_time = (new Date()).getTime()
+                sent_size = 0
+            }
+            uploadRate.innerText = " Upload rate: " + upload_rate + "Mb/s"
         }
         status.dispatchEvent(
             new CustomEvent('statusChange', {detail: `Uploaded ${i + 1} file(s)`})

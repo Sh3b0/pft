@@ -18,7 +18,7 @@ import {
 const connectButton = document.getElementById('connect-button')
 const illustration = document.querySelector('.right-illustration')
 let remoteConnection, receiverBuffer = [], bytesReceived = 0, offer, fileMeta, receiveChannel, fileCount = 0
-let i = 0, start_time
+let i = 0, start_time, end_time, received_size = 0, upload_rate
 // Connection establishment
 window.onload = () => {
     init()
@@ -30,7 +30,6 @@ window.onload = () => {
         receiveChannel.binaryType = 'arraybuffer'
         receiveChannel.onopen = () => {
             status.dispatchEvent(
-
                 new CustomEvent('statusChange', {detail: "Connected"})
             )
 
@@ -50,18 +49,20 @@ window.onload = () => {
                 fileCount += 1
             } else {
                 i += 1
-                if (i === 1){
+                if (i % 20 === 0) {
+                    end_time = (new Date()).getTime()
+                    upload_rate = ((received_size / ((end_time - start_time) / 1000) / 1024) / 1024).toFixed(2)
                     start_time = (new Date()).getTime()
+                    received_size = 0
                 }
                 connectButton.disabled = true
                 receiverBuffer.push(e.data)
+                received_size += e.data.byteLength
                 bytesReceived += e.data.byteLength
                 progressText.innerText = `Downloaded ${formatBytes(bytesReceived)}`
                 progressFill.style.width = (bytesReceived / fileMeta.size * 100).toString() + "%"
 
-                let end_time = (new Date()).getTime()
 
-                let upload_rate = ((bytesReceived/((end_time - start_time)/1000)/1024)/1024).toFixed(2)
                 uploadRate.innerText = "Download Rate: " + upload_rate + "Mb/s"
                 receiveChannel.send("ACK")
                 if (bytesReceived === fileMeta.size) {
