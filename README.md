@@ -14,6 +14,7 @@ PFT is a Web Application for simultaneous upload/download of files between two u
 - [How the web-application works](https://github.com/Sh3B0/pft#How-the-web-application-works)
 - [Frameworks and technology used](https://github.com/Sh3B0/pft#Frameworks-and-technology-used)
 - [Local testing](https://github.com/Sh3B0/pft#Local-testing)
+- [UI Test](https://github.com/Sh3B0/pft#UI-Test)
 - [Known issues](https://github.com/Sh3B0/pft#known-issues)
 - [Rational Unified Process (RUP)](https://github.com/Sh3B0/pft#Rational-Unified-Process-RUP)
 - [Sequence Diagram](https://github.com/Sh3B0/pft#Sequence-Diagram)
@@ -57,6 +58,17 @@ Feel free to check and contact us!
 
 1. Install requirements `pip install -r requirements.txt`
 2. run `python3 server.py`
+
+## UI Test
+
+UI Test is available in dev branch. This test opens a new window the provided URL (for now it is local), selects a file, 
+copies the room id, then it opens receiver window, 
+pastes the code and downloads the file. 
+Finally, it checks whether the file was received correctly.
+For now, it is working only locally. You can download dev branch and execute test_web.py. 
+Below there is a screenshot of UI test result.
+
+![UI-Test-Result](./pictures/UI-Test-Result.jpeg)
 
 ## Known issues
 - `Unchecked runtime.lastError: The message port closed before a response was received.`
