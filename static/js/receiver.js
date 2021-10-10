@@ -10,6 +10,7 @@ import {
     progressFill,
     progressText,
     uploadRate,
+    isReceived,
     dragAreaFilled,
     fileText,
     inviteLink,
@@ -24,7 +25,7 @@ window.onload = () => {
     init()
     window.onbeforeunload = closeConnection
     remoteConnection = new RTCPeerConnection(conf)
-
+    isReceived.innerText = "No connection yet"
     remoteConnection.ondatachannel = e => {
         receiveChannel = e.channel
         receiveChannel.binaryType = 'arraybuffer'
@@ -70,6 +71,7 @@ window.onload = () => {
                     status.dispatchEvent(
                         new CustomEvent('statusChange', {detail: `Downloaded ${fileCount} file(s)`})
                     )
+                    isReceived.innerText = "Downloaded"
                     progressText.innerText = ""
                     uploadRate.innerText = ""
                     progress.style.display = "none"

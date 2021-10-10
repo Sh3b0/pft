@@ -6,6 +6,7 @@ export const progress = document.querySelector('.progress')
 export const progressFill = document.querySelector('.progress-fill')
 export const progressText = document.querySelector('.progress-text')
 export const uploadRate = document.querySelector('.upload-rate')
+export const isReceived = document.querySelector('.is-received')
 export const dragAreaFilled = document.querySelector(".drag-area-filled")
 export const conf = {iceServers: [{urls: 'stun:stun.l.google.com:19302'}]}
 export let inviteLink = document.getElementById('invite-link')
